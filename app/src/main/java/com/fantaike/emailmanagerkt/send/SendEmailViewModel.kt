@@ -35,7 +35,6 @@ class SendEmailViewModel(private val mRepository: EmailRepository) : ViewModel()
         mAccount?.run {
             send.value = this.account
         }
-        receiver.value = "1099805173@qq.com"
     }
 
     fun send(save2Sent: Boolean) {
