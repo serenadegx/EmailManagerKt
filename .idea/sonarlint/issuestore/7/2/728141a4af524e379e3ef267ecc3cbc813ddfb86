@@ -1,0 +1,112 @@
+
+Psquid:S1153ª"1Directly append the argument of String.valueOf().(ÉãÒ‚8³’™ƒí-
+Fsquid:S1148b"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ã’õµë-
+Fsquid:S1148_"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ã’õµë-
+Usquid:S1854Å"6Remove this useless assignment to local variable "is".(¶ŒÛé8³’™ƒí-
+dsquid:S2147›"ECombine this catch with the one at line 152, which has the same body.(”ı¾8á†ÊÓì-
+Gsquid:S1148œ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á†ÊÓì-
+osquid:CommentedOutCodeLineÕ"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+Fsquid:S1148e"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8§à÷µë-
+osquid:CommentedOutCodeLine‰"<This block of commented-out lines of code should be removed.(“¦€­ùÿÿÿÿ8³’™ƒí-
+Fsquid:S1148m"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8§à÷µë-
+jsquid:CommentedOutCodeLineñ"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+Gsquid:S1148’"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8³’™ƒí-
+Usquid:S1153°"1Directly append the argument of String.valueOf().(êºüÿÿÿÿ8§à÷µë-
+osquid:CommentedOutCodeLine°"<This block of commented-out lines of code should be removed.(°ğûşÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine¼"<This block of commented-out lines of code should be removed.(“¦€­ùÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineù"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+ƒsquid:S1149†"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ÆĞÇŸúÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLineú"<This block of commented-out lines of code should be removed.(¤”Ëß8³’™ƒí-
+osquid:CommentedOutCodeLineç"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine´"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8»ë—ƒí-
+jsquid:CommentedOutCodeLineş"<This block of commented-out lines of code should be removed.(óˆê¦8³’™ƒí-
+osquid:CommentedOutCodeLineÁ"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine¬"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+Gsquid:S1148À"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Å¬–ƒí-
+jsquid:CommentedOutCodeLineã"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+dsquid:S2147•"ECombine this catch with the one at line 913, which has the same body.(”ı¾8³’™ƒí-
+osquid:CommentedOutCodeLineµ"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+ƒsquid:S1149ş"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ñÕ€˜ıÿÿÿÿ8³’™ƒí-
+Gsquid:S1148¥"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á†ÊÓì-
+osquid:CommentedOutCodeLineæ"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+Gsquid:S1148è"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineÚ"<This block of commented-out lines of code should be removed.(ãÁ½—şÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine†"<This block of commented-out lines of code should be removed.(‡’”¨ûÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineŠ"<This block of commented-out lines of code should be removed.(âÛ½ƒşÿÿÿÿ8ıìÊÓì-
+Gsquid:S1148î"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8§à÷µë-
+~squid:S1149ö"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(í…Ò‰8³’™ƒí-
+Gsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLineû"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+Gsquid:S1148ì"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLine®"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+jsquid:CommentedOutCodeLineš"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+osquid:CommentedOutCodeLine‚"<This block of commented-out lines of code should be removed.(°ğûşÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLine¨"<This block of commented-out lines of code should be removed.(¤”Ëß8³’™ƒí-
+osquid:CommentedOutCodeLine†"<This block of commented-out lines of code should be removed.(³•ıÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine´"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8»ë—ƒí-
+jsquid:CommentedOutCodeLineè"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+jsquid:CommentedOutCodeLineê"<This block of commented-out lines of code should be removed.(šªÒê8³’™ƒí-
+jsquid:CommentedOutCodeLineö"<This block of commented-out lines of code should be removed.(¶ŠØå8³’™ƒí-
+osquid:CommentedOutCodeLine²"<This block of commented-out lines of code should be removed.(±É¾œşÿÿÿÿ8Óº¿Óì-
+osquid:CommentedOutCodeLine¸"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine„"<This block of commented-out lines of code should be removed.(¹úº¸şÿÿÿÿ8Óº¿Óì-
+osquid:CommentedOutCodeLineñ"<This block of commented-out lines of code should be removed.(Æ³úğÿÿÿÿÿ8³’™ƒí-
+Gsquid:S1148ì"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineŒ"<This block of commented-out lines of code should be removed.(ä€’¥ûÿÿÿÿ8Óº¿Óì-
+Gsquid:S1148ê"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLine¿"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+osquid:CommentedOutCodeLineï"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine‚"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8á†ÊÓì-
+osquid:CommentedOutCodeLineâ"<This block of commented-out lines of code should be removed.(–½²•úÿÿÿÿ8Óº¿Óì-
+Usquid:S2696–"6Make the enclosing method "static" or remove this set.(ìÿâ“8á†ÊÓì-
+isquid:CommentedOutCodeLine³"<This block of commented-out lines of code should be removed.(Üšø8³’™ƒí-
+osquid:CommentedOutCodeLineØ"<This block of commented-out lines of code should be removed.(Ûò°Âÿÿÿÿÿ8³’™ƒí-
+Ysquid:S1141½"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8Å¬–ƒí-
+Gsquid:S1148å"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8»ë—ƒí-
+|squid:S2293G"YReplace the type specification in this constructor call with the diamond operator ("<>").(æõ‡Šûÿÿÿÿ8Óº¿Óì-
+bsquid:S2147`"DCombine this catch with the one at line 93, which has the same body.(°±âİ8§à÷µë-
+osquid:CommentedOutCodeLineá"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+Fsquid:S1481Å"'Remove this unused "is" local variable.(¶ŒÛé8³’™ƒí-
+Ssquid:S1191"5Use classes from the Java API instead of Sun classes.(øâàõ8Óº¿Óì-
+psquid:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òšœ]8§à÷µë-
+osquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-
+nsquid:CommentedOutCodeLineA"<This block of commented-out lines of code should be removed.(ˆõæŠúÿÿÿÿ8Óº¿Óì-
+dsquid:S2147é"ECombine this catch with the one at line 999, which has the same body.(ŸäÁ‚8³’™ƒí-
+jsquid:CommentedOutCodeLineˆ"<This block of commented-out lines of code should be removed.(¶ŠØå8ıìÊÓì-
+osquid:CommentedOutCodeLine‚"<This block of commented-out lines of code should be removed.(ÍÙû‘ûÿÿÿÿ8³’™ƒí-
+Ssquid:S2696u"6Make the enclosing method "static" or remove this set.(¸óÂ28á†ÊÓì-
+dsquid:S2147“"ECombine this catch with the one at line 913, which has the same body.(°±âİ8³’™ƒí-
+osquid:CommentedOutCodeLine´"<This block of commented-out lines of code should be removed.(³•ıÿÿÿÿ8³’™ƒí-
+bsquid:S2147c"DCombine this catch with the one at line 93, which has the same body.(”ı¾8ã’õµë-
+Gsquid:S1148–"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineğ"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineş"<This block of commented-out lines of code should be removed.(¦úÌÿÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLineî"<This block of commented-out lines of code should be removed.(ˆ†¤»8³’™ƒí-
+qsquid:S3776£"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(úçğ¼8³’™ƒí-
+jsquid:CommentedOutCodeLine”"<This block of commented-out lines of code should be removed.(´ŸÊÖ8ş®ĞÓì-
+osquid:CommentedOutCodeLine˜"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(³•ıÿÿÿÿ8³’™ƒí-
+lsquid:S1192"HDefine a constant instead of duplicating this literal "subject" 3 times.(Š›™âşÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLineò"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+jsquid:CommentedOutCodeLine "<This block of commented-out lines of code should be removed.(ŸŞô¾8³’™ƒí-
+osquid:CommentedOutCodeLine¬"<This block of commented-out lines of code should be removed.(Ÿ›Î‚ûÿÿÿÿ8³’™ƒí-
+W
+squid:S106Á"9Replace this use of System.out or System.err by a logger.(Î®É8³’™ƒí-
+jsquid:CommentedOutCodeLineº"<This block of commented-out lines of code should be removed.(µá¹8§à÷µë-
+jsquid:CommentedOutCodeLineÃ"<This block of commented-out lines of code should be removed.(ºı«8³’™ƒí-
+osquid:CommentedOutCodeLine½"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLineŠ"<This block of commented-out lines of code should be removed.(¢÷»ÿ8³’™ƒí-
+Gsquid:S1148”"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8³’™ƒí-
+jsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(©¾š¹8³’™ƒí-
+jsquid:CommentedOutCodeLine˜"<This block of commented-out lines of code should be removed.(àã¿»8³’™ƒí-
+osquid:CommentedOutCodeLine¨"<This block of commented-out lines of code should be removed.(·Ëûİıÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineÖ"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¨‚ÉÓì-
+isquid:CommentedOutCodeLine;"<This block of commented-out lines of code should be removed.(€ªŸÒ8Óº¿Óì-
+osquid:CommentedOutCodeLineù"<This block of commented-out lines of code should be removed.(§êé”ÿÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineş"<This block of commented-out lines of code should be removed.(Ÿ›Î‚ûÿÿÿÿ8³’™ƒí-
+osquid:CommentedOutCodeLineú"<This block of commented-out lines of code should be removed.(¹±‚Ÿøÿÿÿÿ8³’™ƒí-
+Gsquid:S1148™"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á†ÊÓì-
+osquid:CommentedOutCodeLine£"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8»ë—ƒí-
+osquid:CommentedOutCodeLineİ"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¨‚ÉÓì-
+osquid:CommentedOutCodeLineè"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8³’™ƒí-

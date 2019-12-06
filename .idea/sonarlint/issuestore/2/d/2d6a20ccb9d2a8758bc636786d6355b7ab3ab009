@@ -1,0 +1,9 @@
+
+Osquid:S1153"1Directly append the argument of String.valueOf().(ÉãÒ‚8±—ø€í-
+Tsquid:S1153#"1Directly append the argument of String.valueOf().(êºüÿÿÿÿ8±—ø€í-
+Fsquid:S1148."#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8±—ø€í-
+Fsquid:S11480"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8±—ø€í-
+Fsquid:S11486"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8±—ø€í-
+]squid:S1118":Add a private constructor to hide the implicit public one.(Ó™€¸ÿÿÿÿÿ8±—ø€í-
+bsquid:S2147/"DCombine this catch with the one at line 45, which has the same body.(ï­£Ä8±—ø€í-
+Msquid:S2093*"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ8±—ø€í-

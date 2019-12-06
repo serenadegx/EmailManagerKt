@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="item"
+                type="com.fantaike.emailmanager.data.Email"/>
+
+        <variable
+                name="adapter"
+                type="com.fantaike.emailmanagerkt.emails.adapter.EmailsListAdapter"/>
+
+        <variable
+                name="position"
+                type="int"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:onClick="@{()->adapter.goNext(item,position)}">
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd_left"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd_right"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <View
+                android:id="@+id/v"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/green_dot"
+                android:visibility="@{item.isRead ? View.GONE : View.VISIBLE}"
+                app:layout_constraintLeft_toLeftOf="@id/gd_left"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+                android:id="@+id/tv_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:text="@{item.personal ==null ? item.from:item.personal}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintLeft_toRightOf="@id/v"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_has_attach"
+                android:visibility="@{item.hasAttach ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_from"
+                app:layout_constraintLeft_toRightOf="@id/tv_from"
+                app:layout_constraintTop_toTopOf="@id/tv_from" />
+
+        <TextView
+                android:id="@+id/tv_subject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{item.subject}"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/gd_left"
+                app:layout_constraintRight_toRightOf="@id/gd_right"
+                app:layout_constraintTop_toBottomOf="@id/tv_from"/>
+
+        <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/black"
+                android:text="@{item.date}"
+                app:layout_constraintRight_toRightOf="@id/gd_right"
+                app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
