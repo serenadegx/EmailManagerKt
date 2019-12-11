@@ -13,9 +13,12 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import com.fantaike.emailmanager.emails.draft.DraftFragment
 import com.fantaike.emailmanager.emails.inbox.InboxFragment
 import com.fantaike.emailmanager.send.SendEmailActivity
 import com.fantaike.emailmanagerkt.emails.EmailsViewModel
+import com.fantaike.emailmanagerkt.emails.deleted.DeletedFragment
+import com.fantaike.emailmanagerkt.emails.sent.SentFragment
 import com.fantaike.emailmanagerkt.utils.obtainViewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -79,22 +82,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
+            R.id.nav_inbox -> {
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.container, InboxFragment.newInstance())
+                }.commit()
             }
-            R.id.nav_gallery -> {
-
+            R.id.nav_sent -> {
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.container, SentFragment.newInstance())
+                }.commit()
             }
-            R.id.nav_slideshow -> {
-
+            R.id.nav_drafts -> {
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.container, DraftFragment.newInstance())
+                }.commit()
+            }
+            R.id.nav_deleted -> {
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.container, DraftFragment.newInstance())
+                }.commit()
             }
             R.id.nav_tools -> {
-
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.container, DeletedFragment.newInstance())
+                }.commit()
             }
             R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
 
             }
         }

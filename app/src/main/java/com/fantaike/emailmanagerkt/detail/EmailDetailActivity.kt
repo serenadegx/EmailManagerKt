@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantaike.emailmanagerkt.EmailApplication
 import com.fantaike.emailmanagerkt.R
 import com.fantaike.emailmanagerkt.data.Attachment
+import com.fantaike.emailmanagerkt.data.FolderType
 import com.fantaike.emailmanagerkt.databinding.ActivityEmailDetailBinding
 import com.fantaike.emailmanagerkt.detail.adapter.AttachmentListAdapter
 import com.fantaike.emailmanagerkt.utils.obtainViewModel
@@ -34,7 +35,12 @@ class EmailDetailActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        EmailApplication.account?.run { mBinding.viewModel?.start(intent.getLongExtra("id", 0L), this) }
+        EmailApplication.account?.run {
+            mBinding.viewModel?.start(
+                intent.getLongExtra("id", 0L),
+                intent.getSerializableExtra("type") as FolderType, this
+            )
+        }
     }
 
     private fun setupSnackBar() {
@@ -57,7 +63,11 @@ class EmailDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun start2EmailDetailActivity(context: Context, id: Long) =
-            context.startActivity(Intent(context, EmailDetailActivity::class.java).putExtra("id", id))
+        fun start2EmailDetailActivity(context: Context, id: Long, type: FolderType) =
+            context.startActivity(
+                Intent(context, EmailDetailActivity::class.java)
+                    .putExtra("id", id)
+                    .putExtra("type", type)
+            )
     }
 }

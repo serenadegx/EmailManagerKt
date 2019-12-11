@@ -9,7 +9,6 @@ import com.fantaike.emailmanager.data.source.AccountDataSource
 import com.fantaike.emailmanager.data.source.AccountRepository
 import com.fantaike.emailmanagerkt.EmailApplication
 import com.fantaike.emailmanagerkt.data.Account
-import com.fantaike.emailmanagerkt.utils.AppExecutors
 
 class VerifyViewModel(private val mRepository: AccountRepository) : ViewModel() {
     private var categoryId: Long = 0L
@@ -25,6 +24,8 @@ class VerifyViewModel(private val mRepository: AccountRepository) : ViewModel() 
 
     fun start(categoryId: Long) {
         this.categoryId = categoryId
+        account.value = "guoxinrui@fantaike.ai"
+        pwd.value = "1993Gxr"
     }
 
     /**

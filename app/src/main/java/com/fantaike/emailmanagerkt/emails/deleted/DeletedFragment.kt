@@ -1,4 +1,4 @@
-package com.fantaike.emailmanagerkt.emails.sent
+package com.fantaike.emailmanagerkt.emails.deleted
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,16 @@ import com.fantaike.emailmanagerkt.EmailApplication
 import com.fantaike.emailmanagerkt.MainActivity
 import com.fantaike.emailmanagerkt.R
 import com.fantaike.emailmanagerkt.data.FolderType
-import com.fantaike.emailmanagerkt.databinding.FragmentSentBinding
+import com.fantaike.emailmanagerkt.databinding.FragmentInboxBinding
 import com.fantaike.emailmanagerkt.emails.adapter.EmailsListAdapter
 import com.fantaike.emailmanagerkt.utils.EMDecoration
 
-class SentFragment : Fragment() {
-    private lateinit var mBinding: FragmentSentBinding
+class DeletedFragment : Fragment() {
+    private lateinit var mBinding: FragmentInboxBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = FragmentSentBinding.inflate(inflater, container, false).apply {
+        mBinding = FragmentInboxBinding.inflate(inflater, container, false).apply {
             viewModel = (activity as MainActivity).obtainViewModel()
-            lifecycleOwner = this@SentFragment
+            lifecycleOwner = this@DeletedFragment
         }
         mBinding.rv.layoutManager = LinearLayoutManager(activity)
         mBinding.rv.addItemDecoration(EMDecoration(activity, EMDecoration.VERTICAL_LIST, R.drawable.list_divider, 0))
@@ -28,18 +28,13 @@ class SentFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mBinding.rv.adapter = EmailsListAdapter(emptyList(), FolderType.SENT)
+        mBinding.rv.adapter = EmailsListAdapter(emptyList(), FolderType.DELETED)
         EmailApplication.account?.run {
-            mBinding.viewModel?.start(FolderType.SENT, this)
+            mBinding.viewModel?.start(FolderType.DELETED, this)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
     companion object {
-        fun newInstance() = SentFragment()
+        fun newInstance() = DeletedFragment()
     }
 }

@@ -3,9 +3,9 @@ package com.fantaike.emailmanager.data.source
 import com.fantaike.emailmanager.data.Email
 import com.fantaike.emailmanager.data.source.local.EmailLocalDataSource
 import com.fantaike.emailmanagerkt.data.Account
+import com.fantaike.emailmanagerkt.data.FolderType
 import com.fantaike.emailmanagerkt.data.source.remote.EmailRemoteDataSource
 import com.fantaike.emailmanagerkt.utils.AppExecutors
-import com.fantaike.emailmanagerkt.utils.ViewModelFactory
 
 class EmailRepository(
     private val mRemoteDataSource: EmailRemoteDataSource,
@@ -18,21 +18,27 @@ class EmailRepository(
         isCache = false
     }
 
-    fun getEmails(type: Int, account: Account, callback: EmailDataSource.GetEmailsCallback) {
+    fun getEmails(type: FolderType, account: Account, callback: EmailDataSource.GetEmailsCallback) {
         mAppExecutors.networkIO.execute {
             mRemoteDataSource.getEmails(type, account, callback)
         }
     }
 
-    fun getEmailById(id: Long, account: Account, callback: EmailDataSource.GetEmailCallback) {
+    fun getEmailById(id: Long, type: FolderType, account: Account, callback: EmailDataSource.GetEmailCallback) {
         mAppExecutors.networkIO.execute {
-            mRemoteDataSource.getEmailById(id, account, callback)
+            mRemoteDataSource.getEmailById(id, type, account, callback)
         }
     }
 
     fun send(account: Account, email: Email, saveSent: Boolean, callback: EmailDataSource.Callback) {
         mAppExecutors.networkIO.execute {
             mRemoteDataSource.send(account, email, saveSent, callback)
+        }
+    }
+
+    fun delete(id: Long, type: FolderType, account: Account, callback: EmailDataSource.Callback) {
+        mAppExecutors.networkIO.execute {
+            mRemoteDataSource.delete(id, type, account, callback)
         }
     }
 

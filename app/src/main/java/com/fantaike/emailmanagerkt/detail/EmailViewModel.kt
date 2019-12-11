@@ -8,6 +8,8 @@ import com.fantaike.emailmanager.data.source.EmailDataSource
 import com.fantaike.emailmanager.data.source.EmailRepository
 import com.fantaike.emailmanagerkt.data.Account
 import com.fantaike.emailmanagerkt.data.Attachment
+import com.fantaike.emailmanagerkt.data.Event
+import com.fantaike.emailmanagerkt.data.FolderType
 
 class EmailViewModel(private val mRepository: EmailRepository) : ViewModel(), EmailDataSource.GetEmailCallback {
     val items = MutableLiveData<List<Attachment>>().apply {
@@ -26,10 +28,18 @@ class EmailViewModel(private val mRepository: EmailRepository) : ViewModel(), Em
     private val snackBarText = MutableLiveData<String>()
     val snackBarMessage: MutableLiveData<String>
         get() = snackBarText
-    private lateinit var mAccount: Account
+    val saveEvent = MutableLiveData<Unit>()
+    val deleteEvent = MutableLiveData<Unit>()
+    val loadingEvent = MutableLiveData<Event>()
 
-    fun start(id: Long, account: Account) {
-        mRepository.getEmailById(id, account, this)
+    private lateinit var mAccount: Account
+    private var id = 0L
+    private var type = FolderType.INBOX
+
+    fun start(id: Long, type: FolderType, account: Account) {
+        this.id = id
+        this.type = type
+        mRepository.getEmailById(id, type, account, this)
     }
 
     override fun onEmailLoaded(email: Email) {
@@ -58,7 +68,18 @@ class EmailViewModel(private val mRepository: EmailRepository) : ViewModel(), Em
     }
 
     fun delete(view: View) {
+        loadingEvent.postValue(Event(true, "正在删除..."))
+        mRepository.delete(id, type, mAccount, object : EmailDataSource.Callback {
+            override fun onSuccess() {
+                loadingEvent.postValue(Event(false, ""))
+                deleteEvent.postValue(Unit)
+            }
 
+            override fun onError() {
+                loadingEvent.postValue(Event(false, ""))
+                snackBarText.postValue("删除失败")
+            }
+        })
     }
 
 }

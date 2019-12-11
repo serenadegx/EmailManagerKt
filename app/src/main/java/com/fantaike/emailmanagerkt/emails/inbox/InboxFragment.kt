@@ -10,6 +10,7 @@ import com.fantaike.emailmanager.data.Email
 import com.fantaike.emailmanagerkt.EmailApplication
 import com.fantaike.emailmanagerkt.MainActivity
 import com.fantaike.emailmanagerkt.R
+import com.fantaike.emailmanagerkt.data.FolderType
 import com.fantaike.emailmanagerkt.databinding.FragmentInboxBinding
 import com.fantaike.emailmanagerkt.emails.adapter.EmailsListAdapter
 import com.fantaike.emailmanagerkt.utils.EMDecoration
@@ -30,9 +31,9 @@ class InboxFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mBinding.rv.adapter = EmailsListAdapter(mData)
+        mBinding.rv.adapter = EmailsListAdapter(mData, FolderType.INBOX)
         EmailApplication.account?.run {
-            mBinding.viewModel?.start(0, this)
+            mBinding.viewModel?.start(FolderType.INBOX, this)
         }
     }
 
