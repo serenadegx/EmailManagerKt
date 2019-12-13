@@ -5,15 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.multifile.XRMultiFile
+import com.fantaike.emailmanager.data.Email
 import com.fantaike.emailmanagerkt.EmailApplication
 import com.fantaike.emailmanagerkt.R
+import com.fantaike.emailmanagerkt.data.SendType
 import com.fantaike.emailmanagerkt.databinding.ActivitySendEmailBinding
 import com.fantaike.emailmanagerkt.send.adapter.AttachmentListAdapter
 import com.fantaike.emailmanagerkt.utils.obtainViewModel
@@ -38,7 +42,10 @@ class SendEmailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         EmailApplication.account?.run {
-            obtainViewModel(SendEmailViewModel::class.java).start(this)
+            obtainViewModel(SendEmailViewModel::class.java).start(
+                this, intent.getParcelableExtra("email"),
+                intent.getSerializableExtra("type") as SendType
+            )
         }
     }
 
@@ -78,9 +85,12 @@ class SendEmailActivity : AppCompatActivity() {
 
         })
         obtainViewModel().saveEvent.observe(this, Observer {
-            Snackbar.make(mBinding.root, "保存成功", Snackbar.LENGTH_SHORT).show()
-            SystemClock.sleep(1000)
-            finish()
+            Thread {
+                Snackbar.make(mBinding.root, "保存成功", Snackbar.LENGTH_SHORT).show()
+                SystemClock.sleep(1000)
+                finish()
+            }.start()
+
         })
         obtainViewModel().loadingEvent.observe(this, Observer {
             if (it.isShow) {
@@ -112,7 +122,18 @@ class SendEmailActivity : AppCompatActivity() {
     private fun obtainViewModel() = obtainViewModel(SendEmailViewModel::class.java)
 
     companion object {
-        fun start2SendEmailActivity(context: Context) =
-            context.startActivity(Intent(context, SendEmailActivity::class.java))
+
+        fun start2SendEmailActivity(context: Context, type: SendType) =
+            context.startActivity(
+                Intent(context, SendEmailActivity::class.java)
+                    .putExtra("type", type)
+            )
+
+        fun start2SendEmailActivity(context: Context, email: Email?, type: SendType) =
+            context.startActivity(
+                Intent(context, SendEmailActivity::class.java)
+                    .putExtra("email", email)
+                    .putExtra("type", type)
+            )
     }
 }

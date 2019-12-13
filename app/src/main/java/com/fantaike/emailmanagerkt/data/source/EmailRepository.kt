@@ -36,6 +36,18 @@ class EmailRepository(
         }
     }
 
+    fun reply(account: Account, email: Email, saveSent: Boolean, callback: EmailDataSource.Callback) {
+        mAppExecutors.networkIO.execute {
+            mRemoteDataSource.reply(account, email, saveSent, callback)
+        }
+    }
+
+    fun forward(account: Account, email: Email, saveSent: Boolean, callback: EmailDataSource.Callback) {
+        mAppExecutors.networkIO.execute {
+            mRemoteDataSource.forward(account, email, saveSent, callback)
+        }
+    }
+
     fun delete(id: Long, type: FolderType, account: Account, callback: EmailDataSource.Callback) {
         mAppExecutors.networkIO.execute {
             mRemoteDataSource.delete(id, type, account, callback)

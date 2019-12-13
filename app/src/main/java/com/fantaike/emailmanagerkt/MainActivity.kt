@@ -16,6 +16,7 @@ import android.view.Menu
 import com.fantaike.emailmanager.emails.draft.DraftFragment
 import com.fantaike.emailmanager.emails.inbox.InboxFragment
 import com.fantaike.emailmanager.send.SendEmailActivity
+import com.fantaike.emailmanagerkt.data.SendType
 import com.fantaike.emailmanagerkt.emails.EmailsViewModel
 import com.fantaike.emailmanagerkt.emails.deleted.DeletedFragment
 import com.fantaike.emailmanagerkt.emails.sent.SentFragment
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            SendEmailActivity.start2SendEmailActivity(this)
+            SendEmailActivity.start2SendEmailActivity(this, SendType.NORMAL)
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

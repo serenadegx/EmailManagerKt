@@ -83,3 +83,13 @@ Bapp/src/main/java/com/fantaike/emailmanagerkt/utils/FileUtils.java,2/d/2d6a20c
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 r
 Bapp/src/main/java/com/fantaike/emailmanagerkt/send/SendBindings.kt,1/9/19c592de35b554bf5b4c2196dc2eb4d21e719016
+{
+Kapp/src/main/java/com/fantaike/emailmanagerkt/emails/draft/DraftFragment.kt,a/8/a8126c63a45d5b9038a3ad93b5b8d2c51e5155b1
+
+Oapp/src/main/java/com/fantaike/emailmanagerkt/emails/deleted/DeletedFragment.kt,1/5/1569d0f0b3cf19e9b6ba6a4c8e46d881ee8dca58
+p
+@app/src/main/java/com/fantaike/emailmanagerkt/data/FolderType.kt,2/c/2c77ac7f25e392c2b8a137bab8e1c9d712972806
+n
+>app/src/main/java/com/fantaike/emailmanagerkt/data/SendType.kt,7/9/79c736b1c6218cda65422b8d201223c50ab0dd4f
+w
+Gapp/src/main/java/com/fantaike/emailmanagerkt/detail/DetailNavigator.kt,0/7/07b5737acea5940210d2f86ddcf6992cdd3f6898

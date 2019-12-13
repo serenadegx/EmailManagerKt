@@ -11,8 +11,10 @@ import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.smtp.SMTPTransport;
 import org.jetbrains.annotations.NotNull;
 
+import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -251,6 +253,99 @@ public class EmailRemoteDataSource implements EmailDataSource {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void reply(@NotNull Account account, @NotNull Email email, boolean saveSent, @NotNull Callback callback) {
+        Properties props = System.getProperties();
+        props.put(account.getConfig().getSendHostKey(), account.getConfig().getSendHostValue());
+        props.put(account.getConfig().getSendPortKey(), account.getConfig().getSendPortValue());
+        props.put(account.getConfig().getSendEncryptKey(), account.getConfig().getSendEncryptValue());
+        props.put(account.getConfig().getAuthKey(), account.getConfig().getAuthValue());
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(
+                        account.getAccount(), account.getPwd());
+            }
+        });
+        Folder folder = null;
+        Store store = null;
+        SMTPTransport t = null;
+        try {
+            store = session.getStore(account.getConfig().getReceiveProtocol());
+            store.connect();
+            folder = store.getFolder("inbox");
+            folder.open(Folder.READ_ONLY);
+            Message message = folder.getMessage((int) email.getId());
+            Message forward = new MimeMessage(session);
+            if (email.getFrom() != null) {
+                forward.setFrom(new InternetAddress(email.getFrom(), account.getPersonal()));
+            }
+
+            forward.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(email.getTo(), false));
+            if (email.getCc() != null)
+                //抄送人
+                forward.setRecipients(Message.RecipientType.CC,
+                        InternetAddress.parse(email.getCc(), false));
+            if (email.getBcc() != null)
+                //秘密抄送人
+                forward.setRecipients(Message.RecipientType.BCC,
+                        InternetAddress.parse(email.getBcc(), false));
+
+            forward.setSubject(email.getSubject());
+
+            MimeMultipart mp = new MimeMultipart();
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            mbp1.setDataHandler(collect(email, message));
+            mp.addBodyPart(mbp1);
+            if (email.getAttachments() != null && email.getAttachments().size() > 0) {
+                for (Attachment detail1 : email.getAttachments()) {
+                    MimeBodyPart mbp2 = new MimeBodyPart();
+                    mbp2.attachFile(detail1.getPath());
+                    mp.addBodyPart(mbp2);
+                }
+            }
+            forward.setContent(mp);
+            forward.saveChanges();
+            forward.setSentDate(new Date());
+            t = (SMTPTransport) session.getTransport(account.getConfig().getSendProtocol());
+            t.connect();
+            t.sendMessage(forward, forward.getAllRecipients());
+            if (saveSent) {
+                save2Sent(account, forward);
+            }
+            callback.onSuccess();
+        } catch (NoSuchProviderException e) {
+            callback.onError();
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            callback.onError();
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            callback.onError();
+            e.printStackTrace();
+        } catch (IOException e) {
+            callback.onError();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (t != null)
+                    t.close();
+                if (folder != null)
+                    folder.close();
+                if (store != null)
+                    store.close();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void forward(@NotNull Account account, @NotNull Email email, boolean saveSent, @NotNull Callback callback) {
+        reply(account, email, saveSent, callback);
     }
 
     @Override
@@ -500,4 +595,8 @@ public class EmailRemoteDataSource implements EmailDataSource {
         return simpleDateFormat.format(date);
     }
 
+    private static DataHandler collect(Email data, Message msg) throws MessagingException, IOException {
+        return new DataHandler(
+                new ByteArrayDataSource(data.getContent(), "text/html"));
+    }
 }

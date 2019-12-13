@@ -28,5 +28,9 @@ interface EmailDataSource {
 
     fun send(account: Account, email: Email, saveSent: Boolean, callback: Callback)
 
+    fun reply(account: Account, email: Email, saveSent: Boolean, callback: Callback)
+
+    fun forward(account: Account, email: Email, saveSent: Boolean, callback: Callback)
+
     fun delete(id: Long, type: FolderType, account: Account, callback: Callback)
 }
