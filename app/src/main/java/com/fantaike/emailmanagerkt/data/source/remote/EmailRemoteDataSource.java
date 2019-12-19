@@ -15,9 +15,7 @@ import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.mail.util.ByteArrayDataSource;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -405,6 +403,73 @@ public class EmailRemoteDataSource implements EmailDataSource {
         }
     }
 
+    @Override
+    public void download(@NotNull Account account, @NotNull FolderType type, long id, int index, @NotNull String path,
+                         @NotNull DownloadCallback callback) {
+        callback.onStart(index);
+        List<InputStream> data = new ArrayList<>();
+        List<Integer> sizes = new ArrayList<>();
+        Properties props = System.getProperties();
+        props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
+        props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
+        props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(
+                        account.getAccount(), account.getPwd());
+            }
+        });
+//        session.setDebug(true);
+        Store store = null;
+        Folder folder = null;
+        try {
+            store = session.getStore(account.getConfig().getReceiveProtocol());
+            store.connect();
+            switch (type) {
+                case INBOX:
+                    folder = (IMAPFolder) store.getFolder("INBOX");
+                    break;
+                case SENT:
+                    folder = (IMAPFolder) store.getFolder("Sent Messages");
+                    break;
+                case DRAFTS:
+                    folder = (IMAPFolder) store.getFolder("Drafts");
+                    break;
+                case DELETED:
+                    folder = (IMAPFolder) store.getFolder("Deleted Messages");
+                    break;
+                default:
+                    folder = (IMAPFolder) store.getFolder("INBOX");
+                    break;
+            }
+            folder.open(Folder.READ_ONLY);
+            Message message = folder.getMessage((int) id);
+            download(message, data, sizes);
+            if (data.size() >= index && data.size() > 0) {
+                Log.i("mango", "size:" + data.get(index).available());
+                realDownload(new File(path), index, sizes.get(index), data.get(index), callback);
+            } else {
+                callback.onError(index);
+            }
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+            callback.onError(index);
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.onError(index);
+        } finally {
+            try {
+                if (folder != null)
+                    folder.close();
+                if (store != null)
+                    store.close();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private static void save2Sent(final Account account, Message message) {
         Properties props = System.getProperties();
         props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
@@ -445,7 +510,7 @@ public class EmailRemoteDataSource implements EmailDataSource {
         }
     }
 
-    public static void dumpPart(Part p, Email data) {
+    private static void dumpPart(Part p, Email data) {
         try {
             if (p instanceof Message) {
                 dumpEnvelope((Message) p, data);
@@ -595,8 +660,77 @@ public class EmailRemoteDataSource implements EmailDataSource {
         return simpleDateFormat.format(date);
     }
 
+    private static void download(Part p, List<InputStream> data, List<Integer> sizes) {
+        try {
+            if (p.isMimeType("multipart/*")) {
+//            This is a Multipart
+                Multipart mp = (Multipart) p.getContent();
+                level++;
+                int count = mp.getCount();
+                for (int i = 0; i < count; i++)
+                    download(mp.getBodyPart(i), data, sizes);
+                level--;
+            } else if (p.isMimeType("message/rfc822")) {
+//            This is a Nested Message
+                level++;
+                download((Part) p.getContent(), data, sizes);
+                level--;
+            }
+            if (level != 0 && p instanceof MimeBodyPart &&
+                    !p.isMimeType("multipart/*")) {
+                String disp = p.getDisposition();
+                // many mailers don't include a Content-Disposition
+                if (disp != null && disp.equalsIgnoreCase(Part.ATTACHMENT)) {
+                    String filename = p.getFileName();
+                    if (filename != null) {
+                        //原生下载附件代码无进度监听
+                        data.add(p.getInputStream());
+                        sizes.add(p.getSize());
+//                        ((MimeBodyPart) p).saveFile(file);
+                    }
+                }
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static DataHandler collect(Email data, Message msg) throws MessagingException, IOException {
         return new DataHandler(
                 new ByteArrayDataSource(data.getContent(), "text/html"));
+    }
+
+    private static void realDownload(File file, int index, long total, InputStream is, DownloadCallback callback) {
+        FileOutputStream fos = null;
+        int len;
+        long sum = 0;
+        byte[] bys = new byte[1024 * 2];
+        try {
+            fos = new FileOutputStream(file);
+            while ((len = is.read(bys)) != -1) {
+                sum += len;
+                fos.write(bys, 0, len);
+                callback.onProgress(index, sum * 1.0f / total);
+            }
+            fos.flush();
+            callback.onFinish(index);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            callback.onError(index);
+        } catch (IOException e) {
+            e.printStackTrace();
+            callback.onError(index);
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+                if (is != null)
+                    is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

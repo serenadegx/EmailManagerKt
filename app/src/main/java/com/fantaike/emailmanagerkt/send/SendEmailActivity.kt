@@ -35,6 +35,7 @@ class SendEmailActivity : AppCompatActivity() {
             lifecycleOwner = this@SendEmailActivity
         }
         setupToolbar()
+        initRichEditor();
         setupAdapter()
         subscribeChanges2Navigator()
     }
@@ -102,6 +103,17 @@ class SendEmailActivity : AppCompatActivity() {
         obtainViewModel().snackBarText.observe(this, Observer {
             Snackbar.make(mBinding.root, it, Snackbar.LENGTH_SHORT).show()
         })
+    }
+
+    private fun initRichEditor() {
+        mBinding.editor.setPadding(10, 10, 10, 10)
+        mBinding.actionBold.setOnClickListener { mBinding.editor.setBold() }
+        mBinding.actionItalic.setOnClickListener { mBinding.editor.setItalic() }
+        mBinding.actionUnderline.setOnClickListener { mBinding.editor.setUnderline() }
+        mBinding.actionInsertImage.setOnClickListener {
+            Snackbar.make(mBinding.root, "添加照片", Snackbar.LENGTH_SHORT).show()
+        }
+        mBinding.actionInsertLink.setOnClickListener { mBinding.editor.insertLink("http://www.baidu.com", "百度") }
     }
 
     private fun setupAdapter() {

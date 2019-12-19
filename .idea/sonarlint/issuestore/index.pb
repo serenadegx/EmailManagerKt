@@ -93,3 +93,11 @@ n
 >app/src/main/java/com/fantaike/emailmanagerkt/data/SendType.kt,7/9/79c736b1c6218cda65422b8d201223c50ab0dd4f
 w
 Gapp/src/main/java/com/fantaike/emailmanagerkt/detail/DetailNavigator.kt,0/7/07b5737acea5940210d2f86ddcf6992cdd3f6898
+}
+Mapp/src/main/java/com/fantaike/emailmanagerkt/send/component/BuildConfig.java,c/c/ccd72b11aa14340c8d1e1a0e7b36961788599b38
+w
+Gapp/src/main/java/com/fantaike/emailmanagerkt/send/component/Utils.java,3/e/3eddaa4ba650650583bb89c287383681a0a94cb3
+|
+Lapp/src/main/java/com/fantaike/emailmanagerkt/send/component/RichEditor.java,7/1/71cada99aa586a45d517b4346d848964f29a41d3
+|
+Lapp/src/main/java/com/fantaike/emailmanagerkt/detail/EmailDetailNavigator.kt,f/c/fcda91403933540154fd8055017f530c4478e23d

@@ -22,6 +22,13 @@ interface EmailDataSource {
         fun onError()
     }
 
+    interface DownloadCallback {
+        fun onStart(index: Int)
+        fun onProgress(index: Int, percent: Float)
+        fun onFinish(index: Int)
+        fun onError(index: Int)
+    }
+
     fun getEmails(type: FolderType, account: Account, callback: GetEmailsCallback)
 
     fun getEmailById(id: Long, type: FolderType, account: Account, callback: GetEmailCallback)
@@ -33,4 +40,14 @@ interface EmailDataSource {
     fun forward(account: Account, email: Email, saveSent: Boolean, callback: Callback)
 
     fun delete(id: Long, type: FolderType, account: Account, callback: Callback)
+
+    fun download(
+        account: Account,
+        type: FolderType,
+        id: Long,
+        index: Int,
+        path: String,
+        callback: DownloadCallback
+    )
+
 }

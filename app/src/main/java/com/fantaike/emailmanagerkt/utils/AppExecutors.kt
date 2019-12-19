@@ -7,10 +7,12 @@ import java.util.concurrent.Executors
 
 const val THREAD_COUNT = 3
 
-data class AppExecutors(
+class AppExecutors(
     val diskIO: Executor = DiskIOExecutor(),
     val networkIO: Executor = Executors.newFixedThreadPool(THREAD_COUNT),
     val mainThread: Executor = MainThreadExecutor()
+
+
 )
 
 class MainThreadExecutor : Executor {

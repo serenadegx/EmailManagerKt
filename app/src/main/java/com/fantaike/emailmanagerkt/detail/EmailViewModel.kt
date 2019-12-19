@@ -1,6 +1,11 @@
 package com.fantaike.emailmanager.detail
 
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Environment
 import android.view.View
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fantaike.emailmanager.data.Email
@@ -11,6 +16,8 @@ import com.fantaike.emailmanagerkt.data.Attachment
 import com.fantaike.emailmanagerkt.data.Event
 import com.fantaike.emailmanagerkt.data.FolderType
 import com.fantaike.emailmanagerkt.detail.DetailNavigator
+import java.io.File
+import java.io.IOException
 
 class EmailViewModel(private val mRepository: EmailRepository) : ViewModel(), EmailDataSource.GetEmailCallback {
     private var mEmail: Email? = null
@@ -93,6 +100,39 @@ class EmailViewModel(private val mRepository: EmailRepository) : ViewModel(), Em
             override fun onError() {
                 loadingEvent.postValue(Event(false, ""))
                 snackBarText.postValue("删除失败")
+            }
+        })
+    }
+
+    fun download(type: FolderType, id: Long, index: Int, path: String, fileName: String) {
+        val dir = File(path)
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        val file = File(dir, fileName)
+        if (!file.exists()) {
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+        }
+        mRepository.download(mAccount, type, id, index, file.absolutePath, object : EmailDataSource.DownloadCallback {
+            override fun onStart(index: Int) {
+                mNavigator.onStart(index)
+            }
+
+            override fun onProgress(index: Int, percent: Float) {
+                mNavigator.onProgress(index, percent)
+            }
+
+            override fun onFinish(index: Int) {
+                mNavigator.onFinish(index)
+            }
+
+            override fun onError(index: Int) {
+                mNavigator.onError(index)
             }
         })
     }

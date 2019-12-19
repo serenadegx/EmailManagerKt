@@ -35,11 +35,13 @@ class SendEmailViewModel(private val mRepository: EmailRepository) : ViewModel()
     val saveEvent = MutableLiveData<Unit>()
 
     private var mType: SendType = SendType.NORMAL
+    private var mData: Email? = null
     private lateinit var mAccount: Account
 
     fun start(account: Account, email: Email?, type: SendType) {
         mAccount = account
         mType = type
+        mData = email
         send.value = mAccount.account
         when (type) {
             SendType.NORMAL ->
@@ -96,6 +98,7 @@ class SendEmailViewModel(private val mRepository: EmailRepository) : ViewModel()
 //        Log.i("mango", "邮件内容：${content.value}")
         loadingEvent.value = Event(true, "正在发送...")
         val email = Email()
+        mData?.let { email.id = it.id }
         send.value?.let { email.from = it }
         receiver.value?.let { email.to = it }
         copy.value?.let { email.cc = it }

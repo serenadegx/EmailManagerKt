@@ -2,6 +2,7 @@ package com.fantaike.emailmanager.account
 
 import android.os.SystemClock
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -12,14 +12,33 @@ class AccountRepository(
 ) :
     AccountDataSource {
     override fun add(account: Account, callback: AccountDataSource.CallBack) {
+        mRemoteDataSource.add(account, object : AccountDataSource.CallBack {
+            override fun onSuccess() {
+                mLocalDataSource.add(account, callback)
+            }
 
-        mRemoteDataSource.add(account, callback)
+            override fun onError(ex: String) {
+                callback.onError(ex)
+            }
+        })
+
+
+    }
+
+    fun getAccount( callback: AccountDataSource.AccountCallback) {
+        mLocalDataSource.getAccount(callback)
+    }
+    fun getAllAccount() {
+
     }
 
     companion object {
         private val INSTANCE: AccountRepository? = null
-        fun getInstance() = INSTANCE ?: synchronized(AccountRepository::class.java) {
-            INSTANCE ?: AccountRepository(AccountLocalDataSource(), AccountRemoteDataSource(AppExecutors()))
+        fun getInstance(
+            localDataSource: AccountLocalDataSource,
+            remoteDataSource: AccountRemoteDataSource
+        ) = INSTANCE ?: synchronized(AccountRepository::class.java) {
+            INSTANCE ?: AccountRepository(localDataSource, remoteDataSource)
         }
     }
 }

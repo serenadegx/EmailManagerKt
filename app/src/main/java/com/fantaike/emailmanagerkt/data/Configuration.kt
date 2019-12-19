@@ -1,5 +1,9 @@
 package com.fantaike.emailmanager.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "config")
 class Configuration constructor(
     categoryId: Long, name: String,
     receiveProtocol: String,
@@ -9,6 +13,7 @@ class Configuration constructor(
     sendPortValue: String, sendEncryptKey: String, sendEncryptValue: Boolean,
     authKey: String, authValue: Boolean
 ) {
+    @PrimaryKey(autoGenerate = true)
     var categoryId: Long = categoryId
     var name: String = name
     var receiveProtocol: String = receiveProtocol

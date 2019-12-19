@@ -10,15 +10,16 @@ import javax.mail.*;
 import java.util.Properties;
 
 public class AccountRemoteDataSource implements AccountDataSource {
+    private static AccountRemoteDataSource INSTANCE;
     private AppExecutors mExecutors;
 
-    public AccountRemoteDataSource(AppExecutors executors) {
+    private AccountRemoteDataSource(AppExecutors executors) {
         this.mExecutors = executors;
     }
 
     @Override
     public void add(@NotNull final Account account, @NotNull final CallBack callback) {
-        mExecutors.getNetworkIO().execute(()->{
+        mExecutors.getNetworkIO().execute(() -> {
             Properties props = System.getProperties();
             props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
             props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
@@ -31,7 +32,7 @@ public class AccountRemoteDataSource implements AccountDataSource {
                 }
             });
             session.setDebug(true);
-            try(Store store = session.getStore(account.getConfig().getReceiveProtocol());) {
+            try (Store store = session.getStore(account.getConfig().getReceiveProtocol());) {
                 store.connect();
                 callback.onSuccess();
             } catch (NoSuchProviderException e) {
@@ -42,5 +43,16 @@ public class AccountRemoteDataSource implements AccountDataSource {
                 callback.onError("账号或密码错误");
             }
         });
+    }
+
+    public static AccountRemoteDataSource getInstance(AppExecutors executors) {
+        if (INSTANCE == null) {
+            synchronized (AccountRemoteDataSource.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new AccountRemoteDataSource(executors);
+                }
+            }
+        }
+        return INSTANCE;
     }
 }

@@ -8,4 +8,12 @@ interface DetailNavigator {
     fun reply(email: Email)
 
     fun forward(email: Email)
+
+    fun onStart(index: Int)
+
+    fun onProgress(index: Int, percent: Float)
+
+    fun onFinish(index: Int)
+
+    fun onError(index: Int)
 }

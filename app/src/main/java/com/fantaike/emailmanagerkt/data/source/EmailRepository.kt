@@ -54,6 +54,37 @@ class EmailRepository(
         }
     }
 
+    fun download(
+        account: Account,
+        type: FolderType,
+        id: Long,
+        index: Int,
+        path: String,
+        callback: EmailDataSource.DownloadCallback
+    ) {
+        mAppExecutors.networkIO.execute {
+            mRemoteDataSource.download(account, type, id, index, path, object :EmailDataSource.DownloadCallback{
+                override fun onStart(index: Int) {
+                    callback.onStart(index)
+                }
+
+                override fun onProgress(index: Int, percent: Float) {
+                    callback.onProgress(index, percent)
+                }
+
+                override fun onFinish(index: Int) {
+                    mAppExecutors.mainThread.execute {
+                        callback.onFinish(index)
+                    }
+                }
+
+                override fun onError(index: Int) {
+                    callback.onError(index)
+                }
+            })
+        }
+    }
+
     companion object {
         private val INSTANCE: EmailRepository? = null
         fun getInstance() = INSTANCE ?: synchronized(EmailRepository::class.java) {

@@ -192,12 +192,61 @@
                         android:items="@{viewModel.items}"
                         tools:listitem="@layout/item_add_attachment"/>
 
+                <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+
+                        <ImageButton
+                                android:id="@+id/action_bold"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@null"
+                                android:contentDescription="@null"
+                                android:src="@mipmap/icon_bold"/>
+
+                        <ImageButton
+                                android:id="@+id/action_italic"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@null"
+                                android:contentDescription="@null"
+                                android:src="@mipmap/icon_italic"/>
+
+                        <ImageButton
+                                android:id="@+id/action_underline"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@null"
+                                android:contentDescription="@null"
+                                android:src="@mipmap/icon_underline"/>
+
+                        <ImageButton
+                                android:id="@+id/action_insert_image"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@null"
+                                android:contentDescription="@null"
+                                android:src="@mipmap/icon_image"/>
+
+                        <ImageButton
+                                android:id="@+id/action_insert_link"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@null"
+                                android:contentDescription="@null"
+                                android:src="@mipmap/icon_link"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
                 <com.fantaike.emailmanagerkt.send.component.RichEditor
                         android:id="@+id/editor"
                         android:layout_margin="6dp"
                         android:html="@={viewModel.content}"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="400dp"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
