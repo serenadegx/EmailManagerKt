@@ -7,6 +7,7 @@ import com.fantaike.emailmanager.data.source.EmailDataSource;
 import com.fantaike.emailmanagerkt.data.Account;
 import com.fantaike.emailmanagerkt.data.Attachment;
 import com.fantaike.emailmanagerkt.data.FolderType;
+import com.fantaike.emailmanagerkt.utils.AppExecutors;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.smtp.SMTPTransport;
 import org.jetbrains.annotations.NotNull;
@@ -25,13 +26,15 @@ public class EmailRemoteDataSource implements EmailDataSource {
 
     static boolean showStructure = true;
     static int level = 0;
+    private final AppExecutors mAppExecutors;
 
-    private EmailRemoteDataSource() {
+    private EmailRemoteDataSource(AppExecutors appExecutors) {
+        this.mAppExecutors = appExecutors;
     }
 
-    public static EmailRemoteDataSource getInstance() {
+    public static EmailRemoteDataSource getInstance(AppExecutors appExecutors) {
         if (INSTANCE == null) {
-            INSTANCE = new EmailRemoteDataSource();
+            INSTANCE = new EmailRemoteDataSource(appExecutors);
         }
         return INSTANCE;
     }
@@ -39,306 +42,306 @@ public class EmailRemoteDataSource implements EmailDataSource {
     @Override
     public void getEmails(FolderType type, final Account account, final GetEmailsCallback callBack) {
         final List<Email> data = new ArrayList<>();
-        Properties props = System.getProperties();
-        props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
-        props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
-        props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        account.getAccount(), account.getPwd());
+        mAppExecutors.getNetworkIO().execute(() -> {
+            Properties props = System.getProperties();
+            props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
+            props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
+            props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(
+                            account.getAccount(), account.getPwd());
+                }
+            });
+            session.setDebug(true);
+            Store store = null;
+            IMAPFolder folder = null;
+            try {
+                store = session.getStore(account.getConfig().getReceiveProtocol());
+                store.connect();
+                Folder[] list = store.getDefaultFolder().list();
+                for (Folder f : list) {
+                    Log.i("mango", "folderName:" + f.getName() + "URL_Name:" + f.getURLName());
+                }
+                switch (type) {
+                    case INBOX:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                    case SENT:
+                        folder = (IMAPFolder) store.getFolder("Sent Messages");
+                        break;
+                    case DRAFTS:
+                        folder = (IMAPFolder) store.getFolder("Drafts");
+                        break;
+                    case DELETED:
+                        folder = (IMAPFolder) store.getFolder("Deleted Messages");
+                        break;
+                    default:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                }
+                //网易163邮箱配置
+                if (account.getConfigId() == 3) {
+                    final Map<String, String> clientParams = new HashMap<String, String>();
+                    clientParams.put("name", "my-imap");
+                    clientParams.put("version", "1.0");
+                    folder.doOptionalCommand("ID not supported",
+                            p -> p.id(clientParams));
+                }
+                folder.open(Folder.READ_WRITE);
+                Message[] messages = folder.getMessages();
+                for (Message message : messages) {
+                    Email emailDetail = dumpEnvelope(message, type);
+                    dumpPart(message, emailDetail);
+                    data.add(emailDetail);
+                }
+                callBack.onEmailsLoaded(data, type);
+            } catch (NoSuchProviderException e) {
+                callBack.onDataNotAvailable();
+                e.printStackTrace();
+            } catch (MessagingException e) {
+                callBack.onDataNotAvailable();
+                e.printStackTrace();
+            } catch (Exception e) {
+                callBack.onDataNotAvailable();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (folder != null && folder.isOpen())
+                        folder.close();
+                    if (store != null)
+                        store.close();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
             }
         });
-        session.setDebug(true);
-        Store store = null;
-        IMAPFolder folder = null;
-        try {
-            store = session.getStore(account.getConfig().getReceiveProtocol());
-            store.connect();
-            Folder[] list = store.getDefaultFolder().list();
-            for (Folder f : list) {
-                Log.i("mango", "folderName:" + f.getName() + "URL_Name:" + f.getURLName());
-            }
-            switch (type) {
-                case INBOX:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-                case SENT:
-                    folder = (IMAPFolder) store.getFolder("Sent Messages");
-                    break;
-                case DRAFTS:
-                    folder = (IMAPFolder) store.getFolder("Drafts");
-                    break;
-                case DELETED:
-                    folder = (IMAPFolder) store.getFolder("Deleted Messages");
-                    break;
-                default:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-            }
-            //网易163邮箱配置
-            if (account.getConfigId() == 3) {
-                final Map<String, String> clientParams = new HashMap<String, String>();
-                clientParams.put("name", "my-imap");
-                clientParams.put("version", "1.0");
-                folder.doOptionalCommand("ID not supported",
-                        p -> p.id(clientParams));
-            }
-            folder.open(Folder.READ_WRITE);
-            Message[] messages = folder.getMessages();
-            for (Message message : messages) {
-                Email emailDetail = new Email();
-                //仅支持imap
-                emailDetail.setRead(message.getFlags().contains(Flags.Flag.SEEN));
-                dumpPart(message, emailDetail);
-                data.add(emailDetail);
-            }
-            callBack.onEmailsLoaded(data, type);
-        } catch (NoSuchProviderException e) {
-            callBack.onDataNotAvailable();
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            callBack.onDataNotAvailable();
-            e.printStackTrace();
-        } catch (Exception e) {
-            callBack.onDataNotAvailable();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (folder != null && folder.isOpen())
-                    folder.close();
-                if (store != null)
-                    store.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     @Override
     public void getEmailById(long id, @NotNull FolderType type, @NotNull Account account, @NotNull GetEmailCallback callback) {
         showStructure = true;
-        Email data;
-        Properties props = System.getProperties();
-        props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
-        props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
-        props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        account.getAccount(), account.getPwd());
-            }
-        });
+        mAppExecutors.getNetworkIO().execute(() -> {
+            Properties props = System.getProperties();
+            props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
+            props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
+            props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(
+                            account.getAccount(), account.getPwd());
+                }
+            });
 //        session.setDebug(true);
-        Store store = null;
-        Folder folder = null;
-        try {
-            store = session.getStore(account.getConfig().getReceiveProtocol());
-            store.connect();
-            switch (type) {
-                case INBOX:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-                case SENT:
-                    folder = (IMAPFolder) store.getFolder("Sent Messages");
-                    break;
-                case DRAFTS:
-                    folder = (IMAPFolder) store.getFolder("Drafts");
-                    break;
-                case DELETED:
-                    folder = (IMAPFolder) store.getFolder("Deleted Messages");
-                    break;
-                default:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-            }
-            folder.open(Folder.READ_ONLY);
-            Message message = folder.getMessage((int) id);
-            //标记已读
-            message.setFlag(Flags.Flag.SEEN, true);
-            data = new Email();
-//            data.setAttachments(new ArrayList<Attachment>());
-            dumpPart(message, data);
-            showStructure = false;
-            callback.onEmailLoaded(data);
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-            callback.onDataNotAvailable();
-        } catch (Exception e) {
-            e.printStackTrace();
-            callback.onDataNotAvailable();
-        } finally {
+            Store store = null;
+            Folder folder = null;
             try {
-                if (folder != null)
-                    folder.close();
-                if (store != null)
-                    store.close();
-            } catch (MessagingException e) {
+                store = session.getStore(account.getConfig().getReceiveProtocol());
+                store.connect();
+                switch (type) {
+                    case INBOX:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                    case SENT:
+                        folder = (IMAPFolder) store.getFolder("Sent Messages");
+                        break;
+                    case DRAFTS:
+                        folder = (IMAPFolder) store.getFolder("Drafts");
+                        break;
+                    case DELETED:
+                        folder = (IMAPFolder) store.getFolder("Deleted Messages");
+                        break;
+                    default:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                }
+                folder.open(Folder.READ_ONLY);
+                Message message = folder.getMessage((int) id);
+                Email data = dumpEnvelope(message, type);
+                dumpPart(message, data);
+                showStructure = false;
+                callback.onEmailLoaded(data);
+            } catch (NoSuchProviderException e) {
                 e.printStackTrace();
-            }
-        }
-
-    }
-
-    @Override
-    public void send(@NotNull Account account, @NotNull Email email, boolean saveSent, @NotNull Callback callback) {
-        Properties props = System.getProperties();
-        props.put(account.getConfig().getSendHostKey(), account.getConfig().getSendHostValue());
-        props.put(account.getConfig().getSendPortKey(), account.getConfig().getSendPortValue());
-        props.put(account.getConfig().getSendEncryptKey(), account.getConfig().getSendEncryptValue());
-        props.put(account.getConfig().getAuthKey(), account.getConfig().getAuthValue());
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        account.getAccount(), account.getPwd());
-            }
-        });
-        SMTPTransport t = null;
-        try {
-            Message msg = new MimeMessage(session);
-            if (email.getFrom() != null) {
+                callback.onDataNotAvailable();
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onDataNotAvailable();
+            } finally {
                 try {
-                    msg.setFrom(new InternetAddress(email.getFrom(), account.getPersonal()));
+                    if (folder != null)
+                        folder.close();
+                    if (store != null)
+                        store.close();
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
             }
-            msg.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(email.getTo(), false));
-            if (email.getCc() != null)
-                //抄送人
-                msg.setRecipients(Message.RecipientType.CC,
-                        InternetAddress.parse(email.getCc(), false));
-            if (email.getBcc() != null)
-                //秘密抄送人
-                msg.setRecipients(Message.RecipientType.BCC,
-                        InternetAddress.parse(email.getBcc(), false));
+        });
+    }
 
-            msg.setSubject(email.getSubject());
+    @Override
+    public void send(@NotNull Account account, @NotNull Email email, boolean saveSent, @NotNull Callback callback) {
+        mAppExecutors.getNetworkIO().execute(() -> {
+            Properties props = System.getProperties();
+            props.put(account.getConfig().getSendHostKey(), account.getConfig().getSendHostValue());
+            props.put(account.getConfig().getSendPortKey(), account.getConfig().getSendPortValue());
+            props.put(account.getConfig().getSendEncryptKey(), account.getConfig().getSendEncryptValue());
+            props.put(account.getConfig().getAuthKey(), account.getConfig().getAuthValue());
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(
+                            account.getAccount(), account.getPwd());
+                }
+            });
+            SMTPTransport t = null;
+            try {
+                Message msg = new MimeMessage(session);
+                if (email.getFrom() != null) {
+                    try {
+                        msg.setFrom(new InternetAddress(email.getFrom(), account.getPersonal()));
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                msg.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(email.getTo(), false));
+                if (email.getCc() != null)
+                    //抄送人
+                    msg.setRecipients(Message.RecipientType.CC,
+                            InternetAddress.parse(email.getCc(), false));
+                if (email.getBcc() != null)
+                    //秘密抄送人
+                    msg.setRecipients(Message.RecipientType.BCC,
+                            InternetAddress.parse(email.getBcc(), false));
 
-            MimeMultipart mp = new MimeMultipart();
-            MimeBodyPart mbp1 = new MimeBodyPart();
-            mbp1.setText(email.getContent());
-            mp.addBodyPart(mbp1);
-            if (email.getAttachments() != null && email.getAttachments().size() > 0) {
-                for (Attachment detail1 : email.getAttachments()) {
-                    MimeBodyPart mbp2 = new MimeBodyPart();
-                    mbp2.attachFile(detail1.getPath());
-                    mp.addBodyPart(mbp2);
+                msg.setSubject(email.getSubject());
+
+                MimeMultipart mp = new MimeMultipart();
+                MimeBodyPart mbp1 = new MimeBodyPart();
+                mbp1.setText(email.getContent());
+                mp.addBodyPart(mbp1);
+                if (email.getAttachments() != null && email.getAttachments().size() > 0) {
+                    for (Attachment detail1 : email.getAttachments()) {
+                        MimeBodyPart mbp2 = new MimeBodyPart();
+                        mbp2.attachFile(detail1.getPath());
+                        mp.addBodyPart(mbp2);
+                    }
+                }
+                msg.setContent(mp);
+                msg.setSentDate(new Date());
+                t = (SMTPTransport) session.getTransport(account.getConfig().getSendProtocol());
+                t.connect();
+                t.sendMessage(msg, msg.getAllRecipients());
+                if (saveSent) {
+                    save2Sent(account, msg);
+                }
+                callback.onSuccess();
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onError();
+            } finally {
+                try {
+                    if (t != null)
+                        t.close();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
                 }
             }
-            msg.setContent(mp);
-            msg.setSentDate(new Date());
-            t = (SMTPTransport) session.getTransport(account.getConfig().getSendProtocol());
-            t.connect();
-            t.sendMessage(msg, msg.getAllRecipients());
-            if (saveSent) {
-                save2Sent(account, msg);
-            }
-            callback.onSuccess();
-        } catch (Exception e) {
-            e.printStackTrace();
-            callback.onError();
-        } finally {
-            try {
-                if (t != null)
-                    t.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
+        });
     }
 
     @Override
     public void reply(@NotNull Account account, @NotNull Email email, boolean saveSent, @NotNull Callback callback) {
-        Properties props = System.getProperties();
-        props.put(account.getConfig().getSendHostKey(), account.getConfig().getSendHostValue());
-        props.put(account.getConfig().getSendPortKey(), account.getConfig().getSendPortValue());
-        props.put(account.getConfig().getSendEncryptKey(), account.getConfig().getSendEncryptValue());
-        props.put(account.getConfig().getAuthKey(), account.getConfig().getAuthValue());
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        account.getAccount(), account.getPwd());
-            }
-        });
-        Folder folder = null;
-        Store store = null;
-        SMTPTransport t = null;
-        try {
-            store = session.getStore(account.getConfig().getReceiveProtocol());
-            store.connect();
-            folder = store.getFolder("inbox");
-            folder.open(Folder.READ_ONLY);
-            Message message = folder.getMessage((int) email.getId());
-            Message forward = new MimeMessage(session);
-            if (email.getFrom() != null) {
-                forward.setFrom(new InternetAddress(email.getFrom(), account.getPersonal()));
-            }
+        mAppExecutors.getNetworkIO().execute(() -> {
+            Properties props = System.getProperties();
+            props.put(account.getConfig().getSendHostKey(), account.getConfig().getSendHostValue());
+            props.put(account.getConfig().getSendPortKey(), account.getConfig().getSendPortValue());
+            props.put(account.getConfig().getSendEncryptKey(), account.getConfig().getSendEncryptValue());
+            props.put(account.getConfig().getAuthKey(), account.getConfig().getAuthValue());
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(
+                            account.getAccount(), account.getPwd());
+                }
+            });
+            Folder folder = null;
+            Store store = null;
+            SMTPTransport t = null;
+            try {
+                store = session.getStore(account.getConfig().getReceiveProtocol());
+                store.connect();
+                folder = store.getFolder("inbox");
+                folder.open(Folder.READ_ONLY);
+                Message message = folder.getMessage((int) email.getId());
+                Message forward = new MimeMessage(session);
+                if (email.getFrom() != null) {
+                    forward.setFrom(new InternetAddress(email.getFrom(), account.getPersonal()));
+                }
 
-            forward.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(email.getTo(), false));
-            if (email.getCc() != null)
-                //抄送人
-                forward.setRecipients(Message.RecipientType.CC,
-                        InternetAddress.parse(email.getCc(), false));
-            if (email.getBcc() != null)
-                //秘密抄送人
-                forward.setRecipients(Message.RecipientType.BCC,
-                        InternetAddress.parse(email.getBcc(), false));
+                forward.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(email.getTo(), false));
+                if (email.getCc() != null)
+                    //抄送人
+                    forward.setRecipients(Message.RecipientType.CC,
+                            InternetAddress.parse(email.getCc(), false));
+                if (email.getBcc() != null)
+                    //秘密抄送人
+                    forward.setRecipients(Message.RecipientType.BCC,
+                            InternetAddress.parse(email.getBcc(), false));
 
-            forward.setSubject(email.getSubject());
+                forward.setSubject(email.getSubject());
 
-            MimeMultipart mp = new MimeMultipart();
-            MimeBodyPart mbp1 = new MimeBodyPart();
-            mbp1.setDataHandler(collect(email, message));
-            mp.addBodyPart(mbp1);
-            if (email.getAttachments() != null && email.getAttachments().size() > 0) {
-                for (Attachment detail1 : email.getAttachments()) {
-                    MimeBodyPart mbp2 = new MimeBodyPart();
-                    mbp2.attachFile(detail1.getPath());
-                    mp.addBodyPart(mbp2);
+                MimeMultipart mp = new MimeMultipart();
+                MimeBodyPart mbp1 = new MimeBodyPart();
+                mbp1.setDataHandler(collect(email, message));
+                mp.addBodyPart(mbp1);
+                if (email.getAttachments() != null && email.getAttachments().size() > 0) {
+                    for (Attachment detail1 : email.getAttachments()) {
+                        MimeBodyPart mbp2 = new MimeBodyPart();
+                        mbp2.attachFile(detail1.getPath());
+                        mp.addBodyPart(mbp2);
+                    }
+                }
+                forward.setContent(mp);
+                forward.saveChanges();
+                forward.setSentDate(new Date());
+                t = (SMTPTransport) session.getTransport(account.getConfig().getSendProtocol());
+                t.connect();
+                t.sendMessage(forward, forward.getAllRecipients());
+                if (saveSent) {
+                    save2Sent(account, forward);
+                }
+                callback.onSuccess();
+            } catch (NoSuchProviderException e) {
+                callback.onError();
+                e.printStackTrace();
+            } catch (MessagingException e) {
+                callback.onError();
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                callback.onError();
+                e.printStackTrace();
+            } catch (IOException e) {
+                callback.onError();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (t != null)
+                        t.close();
+                    if (folder != null)
+                        folder.close();
+                    if (store != null)
+                        store.close();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
                 }
             }
-            forward.setContent(mp);
-            forward.saveChanges();
-            forward.setSentDate(new Date());
-            t = (SMTPTransport) session.getTransport(account.getConfig().getSendProtocol());
-            t.connect();
-            t.sendMessage(forward, forward.getAllRecipients());
-            if (saveSent) {
-                save2Sent(account, forward);
-            }
-            callback.onSuccess();
-        } catch (NoSuchProviderException e) {
-            callback.onError();
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            callback.onError();
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            callback.onError();
-            e.printStackTrace();
-        } catch (IOException e) {
-            callback.onError();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (t != null)
-                    t.close();
-                if (folder != null)
-                    folder.close();
-                if (store != null)
-                    store.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
+        });
     }
 
     @Override
@@ -348,126 +351,130 @@ public class EmailRemoteDataSource implements EmailDataSource {
 
     @Override
     public void delete(long id, @NotNull FolderType type, @NotNull Account account, @NotNull Callback callback) {
-        Properties props = System.getProperties();
-        props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
-        props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
-        props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        account.getAccount(), account.getPwd());
+        mAppExecutors.getNetworkIO().execute(() -> {
+            Properties props = System.getProperties();
+            props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
+            props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
+            props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(
+                            account.getAccount(), account.getPwd());
+                }
+            });
+//        session.setDebug(true);
+            Store store = null;
+            Folder folder = null;
+            try {
+                store = session.getStore(account.getConfig().getReceiveProtocol());
+                store.connect();
+                switch (type) {
+                    case INBOX:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                    case SENT:
+                        folder = (IMAPFolder) store.getFolder("Sent Messages");
+                        break;
+                    case DRAFTS:
+                        folder = (IMAPFolder) store.getFolder("Drafts");
+                        break;
+                    case DELETED:
+                        folder = (IMAPFolder) store.getFolder("Deleted Messages");
+                        break;
+                    default:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                }
+                folder.open(Folder.READ_WRITE);
+                Message message = folder.getMessage((int) id);
+                message.setFlag(Flags.Flag.DELETED, true);
+                callback.onSuccess();
+            } catch (NoSuchProviderException e) {
+                e.printStackTrace();
+            } catch (MessagingException e) {
+                callback.onError();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (folder != null)
+                        folder.close();
+                    if (store != null)
+                        store.close();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
             }
         });
-//        session.setDebug(true);
-        Store store = null;
-        Folder folder = null;
-        try {
-            store = session.getStore(account.getConfig().getReceiveProtocol());
-            store.connect();
-            switch (type) {
-                case INBOX:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-                case SENT:
-                    folder = (IMAPFolder) store.getFolder("Sent Messages");
-                    break;
-                case DRAFTS:
-                    folder = (IMAPFolder) store.getFolder("Drafts");
-                    break;
-                case DELETED:
-                    folder = (IMAPFolder) store.getFolder("Deleted Messages");
-                    break;
-                default:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-            }
-            folder.open(Folder.READ_WRITE);
-            Message message = folder.getMessage((int) id);
-            message.setFlag(Flags.Flag.DELETED, true);
-            callback.onSuccess();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            callback.onError();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (folder != null)
-                    folder.close();
-                if (store != null)
-                    store.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
     public void download(@NotNull Account account, @NotNull FolderType type, long id, int index, @NotNull String path,
                          @NotNull DownloadCallback callback) {
-        callback.onStart(index);
-        List<InputStream> data = new ArrayList<>();
-        List<Integer> sizes = new ArrayList<>();
-        Properties props = System.getProperties();
-        props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
-        props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
-        props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        account.getAccount(), account.getPwd());
+        mAppExecutors.getNetworkIO().execute(() -> {
+            callback.onStart(index);
+            List<InputStream> data = new ArrayList<>();
+            List<Integer> sizes = new ArrayList<>();
+            Properties props = System.getProperties();
+            props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
+            props.put(account.getConfig().getReceivePortKey(), account.getConfig().getReceivePortValue());
+            props.put(account.getConfig().getReceiveEncryptKey(), account.getConfig().getReceiveEncryptValue());
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(
+                            account.getAccount(), account.getPwd());
+                }
+            });
+//        session.setDebug(true);
+            Store store = null;
+            Folder folder = null;
+            try {
+                store = session.getStore(account.getConfig().getReceiveProtocol());
+                store.connect();
+                switch (type) {
+                    case INBOX:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                    case SENT:
+                        folder = (IMAPFolder) store.getFolder("Sent Messages");
+                        break;
+                    case DRAFTS:
+                        folder = (IMAPFolder) store.getFolder("Drafts");
+                        break;
+                    case DELETED:
+                        folder = (IMAPFolder) store.getFolder("Deleted Messages");
+                        break;
+                    default:
+                        folder = (IMAPFolder) store.getFolder("INBOX");
+                        break;
+                }
+                folder.open(Folder.READ_ONLY);
+                Message message = folder.getMessage((int) id);
+                download(message, data, sizes);
+                if (data.size() >= index && data.size() > 0) {
+                    Log.i("mango", "size:" + data.get(index).available());
+                    realDownload(new File(path), index, sizes.get(index), data.get(index), callback);
+                } else {
+                    callback.onError(index);
+                }
+            } catch (NoSuchProviderException e) {
+                e.printStackTrace();
+                callback.onError(index);
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onError(index);
+            } finally {
+                try {
+                    if (folder != null)
+                        folder.close();
+                    if (store != null)
+                        store.close();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
             }
         });
-//        session.setDebug(true);
-        Store store = null;
-        Folder folder = null;
-        try {
-            store = session.getStore(account.getConfig().getReceiveProtocol());
-            store.connect();
-            switch (type) {
-                case INBOX:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-                case SENT:
-                    folder = (IMAPFolder) store.getFolder("Sent Messages");
-                    break;
-                case DRAFTS:
-                    folder = (IMAPFolder) store.getFolder("Drafts");
-                    break;
-                case DELETED:
-                    folder = (IMAPFolder) store.getFolder("Deleted Messages");
-                    break;
-                default:
-                    folder = (IMAPFolder) store.getFolder("INBOX");
-                    break;
-            }
-            folder.open(Folder.READ_ONLY);
-            Message message = folder.getMessage((int) id);
-            download(message, data, sizes);
-            if (data.size() >= index && data.size() > 0) {
-                Log.i("mango", "size:" + data.get(index).available());
-                realDownload(new File(path), index, sizes.get(index), data.get(index), callback);
-            } else {
-                callback.onError(index);
-            }
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-            callback.onError(index);
-        } catch (Exception e) {
-            e.printStackTrace();
-            callback.onError(index);
-        } finally {
-            try {
-                if (folder != null)
-                    folder.close();
-                if (store != null)
-                    store.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private static void save2Sent(final Account account, Message message) {
@@ -512,9 +519,6 @@ public class EmailRemoteDataSource implements EmailDataSource {
 
     private static void dumpPart(Part p, Email data) {
         try {
-            if (p instanceof Message) {
-                dumpEnvelope((Message) p, data);
-            }
             if (p.isMimeType("text/plain")) {
 //            This is plain text
                 data.setContent((String) p.getContent());
@@ -562,7 +566,7 @@ public class EmailRemoteDataSource implements EmailDataSource {
                         data.setHasAttach(true);
                         if (showStructure) {
                             String fileName = MimeUtility.decodeText(filename);
-                            data.getAttachments().add(new Attachment(fileName,
+                            data.getAttachments().add(new Attachment(data.getId(), data.getType(), fileName,
                                     Environment.getExternalStorageDirectory().getAbsolutePath()
                                             + "/EmailManager/" + fileName, p.getSize(), getPrintSize(p.getSize())));
                         }
@@ -589,8 +593,9 @@ public class EmailRemoteDataSource implements EmailDataSource {
         }
     }
 
-    private static void dumpEnvelope(Message message, Email data) throws MessagingException, UnsupportedEncodingException {
-        data.setId(message.getMessageNumber());
+    private static Email dumpEnvelope(Message message, FolderType type) throws MessagingException, UnsupportedEncodingException {
+        Email data = new Email();
+        InternetAddress address = (InternetAddress) message.getFrom()[0];
         Address[] recipients = message.getRecipients(Message.RecipientType.TO);
         if (recipients != null) {
             StringBuffer sb = new StringBuffer();
@@ -615,13 +620,16 @@ public class EmailRemoteDataSource implements EmailDataSource {
             }
             data.setBcc(sbBcc.toString());
         }
-        InternetAddress address = (InternetAddress) message.getFrom()[0];
-        data.setFrom(address.getAddress());
-        data.setPersonal(address.getPersonal());
+        data.setId(message.getMessageNumber());
+        data.setType(type.ordinal());
+        data.setRead(message.getFlags().contains(Flags.Flag.SEEN));//仅支持imap
         data.setSubject(message.getHeader("subject") == null || message
                 .getHeader("subject").length == 0 ? message.getSubject()
                 : MimeUtility.decodeText(message.getHeader("subject")[0]));
+        data.setFrom(address.getAddress());
         data.setDate(dateFormat(message.getReceivedDate() == null ? message.getSentDate() : message.getReceivedDate()));
+        data.setPersonal(address.getPersonal());
+        return data;
     }
 
     private static String getPrintSize(long size) {
@@ -702,7 +710,7 @@ public class EmailRemoteDataSource implements EmailDataSource {
                 new ByteArrayDataSource(data.getContent(), "text/html"));
     }
 
-    private static void realDownload(File file, int index, long total, InputStream is, DownloadCallback callback) {
+    private void realDownload(File file, int index, long total, InputStream is, DownloadCallback callback) {
         FileOutputStream fos = null;
         int len;
         long sum = 0;
@@ -715,7 +723,9 @@ public class EmailRemoteDataSource implements EmailDataSource {
                 callback.onProgress(index, sum * 1.0f / total);
             }
             fos.flush();
-            callback.onFinish(index);
+            mAppExecutors.getMainThread().execute(() -> {
+                callback.onFinish(index);
+            });
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             callback.onError(index);

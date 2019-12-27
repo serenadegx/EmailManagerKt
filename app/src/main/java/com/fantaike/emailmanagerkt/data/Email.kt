@@ -2,10 +2,15 @@ package com.fantaike.emailmanager.data
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.*
 import com.fantaike.emailmanagerkt.data.Attachment
 
-class Email() : Comparable<Email>,Parcelable {
+@Entity(tableName = "emails")
+class Email() : Comparable<Email>, Parcelable {
+    @PrimaryKey
     var id: Long = 0
+    var type: Int = 0
+    @ColumnInfo(name = "read")
     var isRead: Boolean = false
     var subject: String = ""
     var personal: String? = null
@@ -15,8 +20,11 @@ class Email() : Comparable<Email>,Parcelable {
     var cc: String? = null
     var bcc: String? = null
     var content: String = ""
+    @ColumnInfo(name = "has_attach")
     var hasAttach: Boolean = false
+    @Ignore
     var attachments: List<Attachment> = mutableListOf()
+    @Ignore
     var append: String = ""
 
     constructor(parcel: Parcel) : this() {

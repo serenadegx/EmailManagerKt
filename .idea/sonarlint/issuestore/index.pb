@@ -101,3 +101,15 @@ Gapp/src/main/java/com/fantaike/emailmanagerkt/send/component/Utils.java,3/e/3e
 Lapp/src/main/java/com/fantaike/emailmanagerkt/send/component/RichEditor.java,7/1/71cada99aa586a45d517b4346d848964f29a41d3
 |
 Lapp/src/main/java/com/fantaike/emailmanagerkt/detail/EmailDetailNavigator.kt,f/c/fcda91403933540154fd8055017f530c4478e23d
+€
+Papp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/EmailDataBase.kt,a/4/a4b9803cb6ca4dd8dd366f7069a28f69bd37f20b
+m
+=app/src/main/java/com/fantaike/emailmanagerkt/utils/DiskIO.kt,9/3/93108732b33971db34b4fd0c7cea6292e1b91ab3
+}
+Mapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/AccountDao.kt,e/b/eb1de155f28f9fefca4f1c391dcf99748a23ec71
+‰
+Yapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/AccountLocalDataSource.kt,5/0/501a8b33560122d6158db1f2490c7780a6037348
+{
+Kapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/EmailDao.kt,8/8/8843219ffd00aef5973112e1cad6bdae556ab21e
+€
+Papp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/AttachmentDao.kt,5/4/54d7a6b4d87975090cbd532e7a09deb9c881b0c8

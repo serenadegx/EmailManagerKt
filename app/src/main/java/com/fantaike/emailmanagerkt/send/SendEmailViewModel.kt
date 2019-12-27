@@ -12,10 +12,7 @@ import com.example.multifile.XRMultiFile
 import com.fantaike.emailmanager.data.Email
 import com.fantaike.emailmanager.data.source.EmailDataSource
 import com.fantaike.emailmanager.data.source.EmailRepository
-import com.fantaike.emailmanagerkt.data.Account
-import com.fantaike.emailmanagerkt.data.Attachment
-import com.fantaike.emailmanagerkt.data.Event
-import com.fantaike.emailmanagerkt.data.SendType
+import com.fantaike.emailmanagerkt.data.*
 import com.fantaike.emailmanagerkt.utils.FileUtils
 
 class SendEmailViewModel(private val mRepository: EmailRepository) : ViewModel() {
@@ -166,7 +163,7 @@ class SendEmailViewModel(private val mRepository: EmailRepository) : ViewModel()
             val list = XRMultiFile.getSelectResult(data)
             val attachments = mutableListOf<Attachment>()
             for (str: String in list) {
-                val attachment = Attachment(
+                val attachment = Attachment(0,FolderType.SENT.ordinal,
                     str.substring(str.lastIndexOf("/") + 1),
                     str,
                     FileUtils.getSize(str),

@@ -22,8 +22,8 @@ class InboxFragment : Fragment() {
         mBinding = FragmentInboxBinding.inflate(inflater, container, false).apply {
             //初始化
             viewModel = (activity as MainActivity).obtainViewModel()
+            lifecycleOwner = viewLifecycleOwner
         }
-        mBinding.lifecycleOwner = viewLifecycleOwner
         mBinding.rv.layoutManager = LinearLayoutManager(activity)
         mBinding.rv.addItemDecoration(EMDecoration(activity, EMDecoration.VERTICAL_LIST, R.drawable.list_divider, 0))
         return mBinding.root

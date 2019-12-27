@@ -7,11 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 
+val AppCompatActivity.tag: String
+    get() = "EmailManager"
+
 fun <T : ViewModel> AppCompatActivity.obtainAccountViewModel(clazz: Class<T>) =
     ViewModelProviders.of(this, AccountViewModelFactory.getInstance(application)).get(clazz)
 
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(clazz: Class<T>) =
-    ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(clazz)
+    ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(clazz)
 
 fun AppCompatActivity.checkPermission(context: Context, permissions: Array<out String>): Boolean {
     var flag = true

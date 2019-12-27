@@ -122,4 +122,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object {
         fun start2MainActivity(context: Context) = context.startActivity(Intent(context, MainActivity::class.java))
     }
+
+
 }
