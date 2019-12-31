@@ -7,8 +7,10 @@ import com.fantaike.emailmanagerkt.data.Attachment
 
 @Entity(tableName = "emails")
 class Email() : Comparable<Email>, Parcelable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Long = 0
+    @ColumnInfo(name = "email_id")
+    var emailId: Int = 0
     var type: Int = 0
     @ColumnInfo(name = "read")
     var isRead: Boolean = false

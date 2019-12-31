@@ -120,7 +120,7 @@ public class EmailRemoteDataSource implements EmailDataSource {
     }
 
     @Override
-    public void getEmailById(long id, @NotNull FolderType type, @NotNull Account account, @NotNull GetEmailCallback callback) {
+    public void getEmailById(int id, @NotNull FolderType type, @NotNull Account account, @NotNull GetEmailCallback callback) {
         showStructure = true;
         mAppExecutors.getNetworkIO().execute(() -> {
             Properties props = System.getProperties();
@@ -350,7 +350,7 @@ public class EmailRemoteDataSource implements EmailDataSource {
     }
 
     @Override
-    public void delete(long id, @NotNull FolderType type, @NotNull Account account, @NotNull Callback callback) {
+    public void delete(int id, @NotNull FolderType type, @NotNull Account account, @NotNull Callback callback) {
         mAppExecutors.getNetworkIO().execute(() -> {
             Properties props = System.getProperties();
             props.put(account.getConfig().getReceiveHostKey(), account.getConfig().getReceiveHostValue());
@@ -620,7 +620,8 @@ public class EmailRemoteDataSource implements EmailDataSource {
             }
             data.setBcc(sbBcc.toString());
         }
-        data.setId(message.getMessageNumber());
+//        data.setId(message.getMessageNumber());
+        data.setEmailId(message.getMessageNumber());
         data.setType(type.ordinal());
         data.setRead(message.getFlags().contains(Flags.Flag.SEEN));//仅支持imap
         data.setSubject(message.getHeader("subject") == null || message

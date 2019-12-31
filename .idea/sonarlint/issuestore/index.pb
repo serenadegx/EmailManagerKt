@@ -109,7 +109,7 @@ m
 Mapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/AccountDao.kt,e/b/eb1de155f28f9fefca4f1c391dcf99748a23ec71
 ‰
 Yapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/AccountLocalDataSource.kt,5/0/501a8b33560122d6158db1f2490c7780a6037348
-{
-Kapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/EmailDao.kt,8/8/8843219ffd00aef5973112e1cad6bdae556ab21e
-€
-Papp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/AttachmentDao.kt,5/4/54d7a6b4d87975090cbd532e7a09deb9c881b0c8
+y
+Iapp/src/main/java/com/fantaike/emailmanagerkt/data/EmailWithAttachment.kt,e/e/eefa7367340deea04aea6f86a609b25585bc524b
+‰
+Yapp/src/main/java/com/fantaike/emailmanagerkt/data/source/local/EmailWithAttachmentDao.kt,8/f/8fc8ea4e9f00f93f0d91a0cd8d4bacd40cde011d

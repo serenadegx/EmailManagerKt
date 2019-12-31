@@ -13,8 +13,8 @@ interface EmailWithAttachmentDao {
     @Query("SELECT * FROM emails WHERE type = :type")
     fun getEmails(type: Int): List<EmailWithAttachment>
 
-    @Query("SELECT * FROM emails WHERE id = :id AND type = :type LIMIT 1")
-    fun getEmailById(id: Long, type: Int): EmailWithAttachment?
+    @Query("SELECT * FROM emails WHERE email_id = :id AND type = :type LIMIT 1")
+    fun getEmailById(id: Int, type: Int): EmailWithAttachment?
 
     @Delete()
     fun deleteEmails(vararg email: Email)

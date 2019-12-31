@@ -42,11 +42,11 @@ class EmailViewModel(private val mRepository: EmailRepository) : ViewModel(), Em
     val loadingEvent = MutableLiveData<Event>()
     private lateinit var mAccount: Account
 
-    private var id = 0L
+    private var id = 0
     private var type = FolderType.INBOX
     private lateinit var mNavigator: DetailNavigator
 
-    fun start(id: Long, type: FolderType, account: Account, navigator: DetailNavigator) {
+    fun start(id: Int, type: FolderType, account: Account, navigator: DetailNavigator) {
         this.id = id
         this.type = type
         mNavigator = navigator

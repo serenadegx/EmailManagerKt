@@ -25,6 +25,8 @@ class VerifyViewModel(private val mRepository: AccountRepository) : ViewModel() 
 
     fun start(categoryId: Long) {
         this.categoryId = categoryId
+        account.value = "guoxinrui@fantaike.ai"
+        pwd.value = "1993Gxr"
     }
 
     /**

@@ -180,7 +180,7 @@ class EmailDetailActivity : AppCompatActivity(), DetailNavigator {
         manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         EmailApplication.account?.run {
             mBinding.viewModel?.start(
-                intent.getLongExtra("id", 0L),
+                intent.getIntExtra("id", 0),
                 intent.getSerializableExtra("type") as FolderType, this,
                 this@EmailDetailActivity
             )
@@ -238,7 +238,7 @@ class EmailDetailActivity : AppCompatActivity(), DetailNavigator {
     private fun obtainViewModel() = obtainViewModel(EmailViewModel::class.java)
 
     companion object {
-        fun start2EmailDetailActivity(context: Context, id: Long, type: FolderType) =
+        fun start2EmailDetailActivity(context: Context, id: Int, type: FolderType) =
             context.startActivity(
                 Intent(context, EmailDetailActivity::class.java)
                     .putExtra("id", id)

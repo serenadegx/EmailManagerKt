@@ -31,7 +31,7 @@ interface EmailDataSource {
 
     fun getEmails(type: FolderType, account: Account, callback: GetEmailsCallback)
 
-    fun getEmailById(id: Long, type: FolderType, account: Account, callback: GetEmailCallback)
+    fun getEmailById(id: Int, type: FolderType, account: Account, callback: GetEmailCallback)
 
     fun send(account: Account, email: Email, saveSent: Boolean, callback: Callback)
 
@@ -39,7 +39,7 @@ interface EmailDataSource {
 
     fun forward(account: Account, email: Email, saveSent: Boolean, callback: Callback)
 
-    fun delete(id: Long, type: FolderType, account: Account, callback: Callback)
+    fun delete(id: Int, type: FolderType, account: Account, callback: Callback)
 
     fun download(
         account: Account,

@@ -1,5 +1,6 @@
 package com.fantaike.emailmanager.data.source.local
 
+import android.os.SystemClock
 import com.fantaike.emailmanager.data.Email
 import com.fantaike.emailmanager.data.source.EmailDataSource
 import com.fantaike.emailmanagerkt.data.Account
@@ -14,6 +15,7 @@ class EmailLocalDataSource private constructor(
 
     fun getEmails(type: FolderType, account: Account, callback: EmailDataSource.GetEmailsCallback) {
         mAppExecutors.diskIO.execute {
+            SystemClock.sleep(500)
             val emails = mutableListOf<Email>()
             val data = mEmailDao.getEmails(type.ordinal)
             if (data.isEmpty()) {
@@ -32,7 +34,7 @@ class EmailLocalDataSource private constructor(
         }
     }
 
-    fun getEmail(id: Long, type: FolderType, account: Account, callback: EmailDataSource.GetEmailCallback) {
+    fun getEmail(id: Int, type: FolderType, account: Account, callback: EmailDataSource.GetEmailCallback) {
         mAppExecutors.diskIO.execute {
             val data = mEmailDao.getEmailById(id, type.ordinal)
             if (data == null) {
@@ -56,7 +58,7 @@ class EmailLocalDataSource private constructor(
         }
     }
 
-    fun deleteById(id: Long, type: FolderType, callback: EmailDataSource.Callback) {
+    fun deleteById(id: Int, type: FolderType, callback: EmailDataSource.Callback) {
         mAppExecutors.diskIO.execute {
             val data = mEmailDao.getEmailById(id, type.ordinal)
             data?.run {
@@ -67,6 +69,16 @@ class EmailLocalDataSource private constructor(
         }
     }
 
+    fun deleteByType(type: FolderType) {
+        mAppExecutors.diskIO.execute {
+            val data = mEmailDao.getEmails(type.ordinal)
+            data.forEach {
+                it.attachments?.run { mEmailDao.deleteAttachments(this) }
+                it.email?.run { mEmailDao.deleteEmails(this) }
+            }
+        }
+    }
+
     fun deleteAll() {
         mAppExecutors.diskIO.execute {
             val data1 = mEmailDao.getEmails(FolderType.INBOX.ordinal)
@@ -74,19 +86,19 @@ class EmailLocalDataSource private constructor(
             val data3 = mEmailDao.getEmails(FolderType.DELETED.ordinal)
             val data4 = mEmailDao.getEmails(FolderType.DRAFTS.ordinal)
 
-            data1?.forEach {
+            data1.forEach {
                 it.attachments?.run { mEmailDao.deleteAttachments(this) }
                 it.email?.run { mEmailDao.deleteEmails(this) }
             }
-            data2?.forEach {
+            data2.forEach {
                 it.attachments?.run { mEmailDao.deleteAttachments(this) }
                 it.email?.run { mEmailDao.deleteEmails(this) }
             }
-            data3?.forEach {
+            data3.forEach {
                 it.attachments?.run { mEmailDao.deleteAttachments(this) }
                 it.email?.run { mEmailDao.deleteEmails(this) }
             }
-            data4?.forEach {
+            data4.forEach {
                 it.attachments?.run { mEmailDao.deleteAttachments(this) }
                 it.email?.run { mEmailDao.deleteEmails(this) }
             }

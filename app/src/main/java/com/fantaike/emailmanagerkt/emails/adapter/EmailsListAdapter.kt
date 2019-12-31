@@ -48,7 +48,7 @@ class EmailsListAdapter(data: List<Email>, type: FolderType) : RecyclerView.Adap
     }
 
     fun goNext(item: Email, position: Int) {
-        EmailDetailActivity.start2EmailDetailActivity(mContext, item.id, mType)
+        EmailDetailActivity.start2EmailDetailActivity(mContext, item.emailId, mType)
     }
 
     class MyViewHolder(itemView: View, binding: ViewDataBinding) : RecyclerView.ViewHolder(itemView) {

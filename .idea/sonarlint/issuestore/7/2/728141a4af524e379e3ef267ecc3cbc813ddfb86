@@ -1,94 +1,96 @@
 
-Gsquid:S1148È"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ8€ÔØï-
-Usquid:S1854¥"6Remove this useless assignment to local variable "is".(¶ŒÛé8å‹£ï-
-Fsquid:S1148h"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148Õ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Òù½ôï-
-Gsquid:S1148‹"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8§©£ï-
-Qsquid:S1905€"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8¤‘£ï-
-Gsquid:S1148¸"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8®‡ôïğ-
-Gsquid:S1148Ş"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Šäõïğ-
-osquid:CommentedOutCodeLine©"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8Ò›¾ïğ-
-psquid:S1192‹"LDefine a constant instead of duplicating this literal "multipart/*" 4 times.(ÎøÛŸúÿÿÿÿ8®‡ôïğ-
-Ysquid:S1141Î"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8€ÔØï-
-Qsquid:S1905ô"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8¤‘£ï-
-Qsquid:S1905–"-Remove this unnecessary cast to "IMAPFolder".(â¶ñ¼ıÿÿÿÿ8ÂÇ£ï-
-Gsquid:S1148ö"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148È"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Òù½ôï-
-Fsquid:S1148e"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Qsquid:S1905œ"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8ÂÇ£ï-
-Gsquid:S1148Ö"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ò›¾ïğ-
-bsquid:S2147f"DCombine this catch with the one at line 99, which has the same body.(°±âİ8€ÔØï-
-dsquid:S2147Ì"ECombine this catch with the one at line 457, which has the same body.(”ı¾8Ò›¾ïğ-
-Usquid:S2696§"6Make the enclosing method "static" or remove this set.(ìÿâ“8€ÔØï-
-Gsquid:S1148º"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8®‡ôïğ-
-bsquid:S2147i"DCombine this catch with the one at line 99, which has the same body.(”ı¾8€ÔØï-
-Gsquid:S1148Å"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Òù½ôï-
-Gsquid:S1148­"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Qsquid:S1905·"-Remove this unnecessary cast to "IMAPFolder".(â¶ñ¼ıÿÿÿÿ8³á¿ïğ-
-dsquid:S2147Ô"ECombine this catch with the one at line 721, which has the same body.(ï­£Ä8Šäõïğ-
-Nsquid:S2093È"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ8Šäõïğ-
-Fsquid:S1148k"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148ª"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148Ì"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8å‹£ï-
-Lsquid:S1905÷"-Remove this unnecessary cast to "IMAPFolder".(İ‰ÓÔ8¤‘£ï-
-Gsquid:S1148Ê"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ò›¾ïğ-
-lsquid:S1192ï"HDefine a constant instead of duplicating this literal "subject" 3 times.(Š›™âşÿÿÿÿ8å‹£ï-
+dsquid:S2147ú"ECombine this catch with the one at line 502, which has the same body.(”ı¾8á½ô·ô-
+ƒsquid:S1149é"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ÆĞÇŸúÿÿÿÿ8á½ô·ô-
+dsquid:S2147©"ECombine this catch with the one at line 166, which has the same body.(”ı¾8ä…ñ·ô-
+Gsquid:S1148Ñ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8²¹ù·ô-
+Ssquid:S2696|"6Make the enclosing method "static" or remove this set.(¸óÂ28ìÛë·ô-
+Gsquid:S1148Ë"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+]squid:S1155Ç">Use isEmpty() to check whether the collection is empty or not.(–ñØÈ8²¹ù·ô-
+vsquid:S3776º"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ú·É‚ûÿÿÿÿ8øÚò·ô-
+isquid:S1192E"FDefine a constant instead of duplicating this literal "INBOX" 8 times.(‰§®æùÿÿÿÿ8ã´î·ô-
+ƒsquid:S1149á"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ñÕ€˜ıÿÿÿÿ8á½ô·ô-
+Lsquid:S1905ÿ"-Remove this unnecessary cast to "IMAPFolder".(Ÿ¦©÷8ìïö·ô-
+Gsquid:S1148Š"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ìïö·ô-
+Fsquid:S1148i"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8şÜî·ô-
+Gsquid:S1148û"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8øÚò·ô-
+csquid:S2147g"ECombine this catch with the one at line 100, which has the same body.(°±âİ8şÜî·ô-
+dsquid:S2147Ğ"ECombine this catch with the one at line 461, which has the same body.(”ı¾8²¹ù·ô-
+osquid:CommentedOutCodeLine‰"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8ä…ñ·ô-
+psquid:S3776+"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(”ô—8şÜî·ô-
+Ysquid:S1141Ì"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8øÚò·ô-
+Gsquid:S1148È"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Gsquid:S1148û"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ä…ñ·ô-
+Gsquid:S1148Å"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Gsquid:S1148¾"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Gsquid:S1148ù"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ä…ñ·ô-
+Qsquid:S1905ü"-Remove this unnecessary cast to "IMAPFolder".(â¶ñ¼ıÿÿÿÿ8ìïö·ô-
+Qsquid:S1905Á"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8²¹ù·ô-
+dsquid:S2147Ë"ECombine this catch with the one at line 585, which has the same body.(ŸäÁ‚8á½ô·ô-
+Fsquid:S1148l"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8şÜî·ô-
+Qsquid:S1905—"-Remove this unnecessary cast to "IMAPFolder".(â¶ñ¼ıÿÿÿÿ8ä…ñ·ô-
+Gsquid:S1148ô"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8øÚò·ô-
+dsquid:S2147É"ECombine this catch with the one at line 320, which has the same body.(ï­£Ä8á½ô·ô-
+Qsquid:S1905"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8ä…ñ·ô-
+Gsquid:S1148Î"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8²¹ù·ô-
+lsquid:S1192H"NDefine a constant instead of duplicating this literal "Sent Messages" 5 times.(İ‰ÓÔ8ã´î·ô-
+dsquid:S2147Ã"ECombine this catch with the one at line 320, which has the same body.(°±âİ8á½ô·ô-
+Qsquid:S1905‚"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8ìïö·ô-
+dsquid:S2147Ü"ECombine this catch with the one at line 729, which has the same body.(ï­£Ä8á½ô·ô-
+qsquid:S3776‚"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(×Ö†8á½ô·ô-
+lsquid:S1192ò"HDefine a constant instead of duplicating this literal "subject" 3 times.(Š›™âşÿÿÿÿ8á½ô·ô-
+Gsquid:S1148•"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ìïö·ô-
+Gsquid:S1148æ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Qsquid:S1905‘"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8ä…ñ·ô-
+Qsquid:S1905ö"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8ìïö·ô-
+osquid:CommentedOutCodeLineî"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8ìïö·ô-
+Fsquid:S1148t"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8şÜî·ô-
+Gsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ìïö·ô-
+|squid:S2293V"YReplace the type specification in this constructor call with the diamond operator ("<>").(æõ‡Šûÿÿÿÿ8şÜî·ô-
+dsquid:S2147¿"ECombine this catch with the one at line 701, which has the same body.(ï­£Ä8á½ô·ô-
+Gsquid:S1148Â"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ìÛë·ô-
+osquid:CommentedOutCodeLine­"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8²¹ù·ô-
+Lsquid:S1905”"-Remove this unnecessary cast to "IMAPFolder".(İ‰ÓÔ8ä…ñ·ô-
+Qsquid:S1905µ"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8²¹ù·ô-
+Gsquid:S1148Ï"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8øÚò·ô-
+Lsquid:S1905š"-Remove this unnecessary cast to "IMAPFolder".(Ÿ¦©÷8ä…ñ·ô-
+Lsquid:S1905¸"-Remove this unnecessary cast to "IMAPFolder".(İ‰ÓÔ8²¹ù·ô-
+Gsquid:S1148§"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ä…ñ·ô-
+Gsquid:S1148Ì"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ8á½ô·ô-
+Qsquid:S1905»"-Remove this unnecessary cast to "IMAPFolder".(â¶ñ¼ıÿÿÿÿ8²¹ù·ô-
+Gsquid:S1148ƒ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Gsquid:S1148Ê"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ8á½ô·ô-
+Xsquid:S1191"5Use classes from the Java API instead of Sun classes.(È¿¥Ëûÿÿÿÿ8Óº¿Óì-
+osquid:S1192N"QDefine a constant instead of duplicating this literal "Deleted Messages" 4 times.(Ÿ¦©÷8ã´î·ô-
+csquid:S2147j"ECombine this catch with the one at line 100, which has the same body.(”ı¾8şÜî·ô-
+Gsquid:S1148İ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Lsquid:S1905¾"-Remove this unnecessary cast to "IMAPFolder".(Ÿ¦©÷8²¹ù·ô-
+Gsquid:S1148Ğ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+isquid:S2147Æ"ECombine this catch with the one at line 320, which has the same body.(ĞĞ¹óúÿÿÿÿ8á½ô·ô-
+Usquid:S1854§"6Remove this useless assignment to local variable "is".(¶ŒÛé8á½ô·ô-
+dsquid:S2147ø"ECombine this catch with the one at line 502, which has the same body.(°±âİ8ä…ñ·ô-
+Nsquid:S2093Î"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ8á½ô·ô-
+jsquid:S1192K"GDefine a constant instead of duplicating this literal "Drafts" 4 times.(â¶ñ¼ıÿÿÿÿ8ã´î·ô-
+Lsquid:S1905ù"-Remove this unnecessary cast to "IMAPFolder".(İ‰ÓÔ8ìïö·ô-
+vsquid:S3776ˆ"RRefactor this method to reduce its Cognitive Complexity from 34 to the 15 allowed.(¯Úæ–øÿÿÿÿ8á½ô·ô-
+jsquid:CommentedOutCodeLine¹"<This block of commented-out lines of code should be removed.(”ØÌ½8á½ô·ô-
+Psquid:S1153"1Directly append the argument of String.valueOf().(ÉãÒ‚8á½ô·ô-
+Gsquid:S1148Ú"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Gsquid:S1148Î"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Gsquid:S1148Õ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-
+Nsquid:S1172Ä"*Remove this unused method parameter "msg".(Ò¶ì‘øÿÿÿÿ8á½ô·ô-
+Usquid:S2696¤"6Make the enclosing method "static" or remove this set.(ìÿâ“8ä…ñ·ô-
+Psquid:S1602Ö",Remove useless curly braces around statement(Ù÷‹„şÿÿÿÿ8›Õ‡¸ô-
+Gsquid:S1148³"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ä…ñ·ô-
+~squid:S1149Ù"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(í…Ò‰8á½ô·ô-
+Gsquid:S1148÷"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ä…ñ·ô-
+Gsquid:S1148ª"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ä…ñ·ô-
+Fsquid:S1148f"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8şÜî·ô-
+Gsquid:S1148Ú"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8²¹ù·ô-
 W
-squid:S106¡"9Replace this use of System.out or System.err by a logger.(Î®É8å‹£ï-
-osquid:CommentedOutCodeLineˆ"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8‹—Òï-
-Gsquid:S1148“"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8§©£ï-
-Lsquid:S1905ı"-Remove this unnecessary cast to "IMAPFolder".(Ÿ¦©÷8¤‘£ï-
-Usquid:S1153"1Directly append the argument of String.valueOf().(êºüÿÿÿÿ8å‹£ï-
-Fsquid:S1481¥"'Remove this unused "is" local variable.(¶ŒÛé8å‹£ï-
-jsquid:CommentedOutCodeLine³"<This block of commented-out lines of code should be removed.(”ØÌ½8®‡ôïğ-
-dsquid:S2147É"ECombine this catch with the one at line 583, which has the same body.(ŸäÁ‚8å‹£ï-
-qsquid:S3776ƒ"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(×Ö†8Òù½ôï-
-~squid:S1149Ö"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(í…Ò‰8å‹£ï-
-dsquid:S2147¹"ECombine this catch with the one at line 695, which has the same body.(ï­£Ä8®‡ôïğ-
-Gsquid:S1148Â"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Òù½ôï-
-dsquid:S2147õ"ECombine this catch with the one at line 497, which has the same body.(”ı¾8” ‹£ï-
-Ssquid:S2696{"6Make the enclosing method "static" or remove this set.(¸óÂ28€ÔØï-
-psquid:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òšœ]8§à÷µë-
-dsquid:S2147¬"ECombine this catch with the one at line 169, which has the same body.(”ı¾8€ÔØï-
-Qsquid:S1905ú"-Remove this unnecessary cast to "IMAPFolder".(â¶ñ¼ıÿÿÿÿ8¤‘£ï-
-lsquid:S1192D"NDefine a constant instead of duplicating this literal "Sent Messages" 5 times.(İ‰ÓÔ8§©£ï-
-dsquid:S2147ó"ECombine this catch with the one at line 497, which has the same body.(°±âİ8” ‹£ï-
-Gsquid:S1148ò"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8” ‹£ï-
-isquid:S1192A"FDefine a constant instead of duplicating this literal "INBOX" 8 times.(‰§®æùÿÿÿÿ8ÆîÑï-
-Qsquid:S1905±"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8³á¿ïğ-
-Xsquid:S1191
-"5Use classes from the Java API instead of Sun classes.(È¿¥Ëûÿÿÿÿ8Óº¿Óì-
-Gsquid:S1148Ñ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148ô"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8” ‹£ï-
-Gsquid:S1148¶"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148ˆ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8§©£ï-
-dsquid:S2147Ã"ECombine this catch with the one at line 320, which has the same body.(°±âİ8Òù½ôï-
-Lsquid:S1905º"-Remove this unnecessary cast to "IMAPFolder".(Ÿ¦©÷8³á¿ïğ-
-Qsquid:S1905½"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8³á¿ïğ-
-Gsquid:S1148ö"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8” ‹£ï-
-Fsquid:S1148s"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Gsquid:S1148Õ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Šäõïğ-
-vsquid:S3776ƒ"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(¯Úæ–øÿÿÿÿ8å‹£ï-
-jsquid:CommentedOutCodeLine¥"<This block of commented-out lines of code should be removed.(´ŸÊÖ8€ÔØï-
-Gsquid:S1148ı"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8€ÔØï-
-Lsquid:S1905“"-Remove this unnecessary cast to "IMAPFolder".(İ‰ÓÔ8ÂÇ£ï-
-Lsquid:S1905´"-Remove this unnecessary cast to "IMAPFolder".(İ‰ÓÔ8³á¿ïğ-
-Lsquid:S1905™"-Remove this unnecessary cast to "IMAPFolder".(Ÿ¦©÷8ÂÇ£ï-
-Gsquid:S1148Í"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ò›¾ïğ-
-Gsquid:S1148Ê"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ8€ÔØï-
-ƒsquid:S1149Ş"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ñÕ€˜ıÿÿÿÿ8å‹£ï-
-osquid:S1192J"QDefine a constant instead of duplicating this literal "Deleted Messages" 4 times.(Ÿ¦©÷8‘›£ï-
-Gsquid:S1148Ë"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Òù½ôï-
-jsquid:S1192G"GDefine a constant instead of duplicating this literal "Drafts" 4 times.(â¶ñ¼ıÿÿÿÿ8‘›£ï-
-Qsquid:S1905"-Remove this unnecessary cast to "IMAPFolder".(‰§®æùÿÿÿÿ8ÂÇ£ï-
-Gsquid:S1148ş"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8” ‹£ï-
-Nsquid:S1172¾"*Remove this unused method parameter "msg".(Ò¶ì‘øÿÿÿÿ8ÇÂˆõï-
-osquid:CommentedOutCodeLineì"<This block of commented-out lines of code should be removed.(»Ùä•úÿÿÿÿ8§©£ï-
-|squid:S2293R"YReplace the type specification in this constructor call with the diamond operator ("<>").(æõ‡Šûÿÿÿÿ8€ÔØï-
-Gsquid:S1148Ò"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Šäõïğ-
-ƒsquid:S1149æ"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ÆĞÇŸúÿÿÿÿ8å‹£ï-
-dsquid:S2147É"ECombine this catch with the one at line 320, which has the same body.(ï­£Ä8Òù½ôï-
-]squid:S1155Ã">Use isEmpty() to check whether the collection is empty or not.(–ñØÈ8¶Òşïğ-
-Gsquid:S1148Î"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8å‹£ï-
-Psquid:S1153Š"1Directly append the argument of String.valueOf().(ÉãÒ‚8å‹£ï-
-isquid:S2147Æ"ECombine this catch with the one at line 320, which has the same body.(ĞĞ¹óúÿÿÿÿ8Òù½ôï-
+squid:S106£"9Replace this use of System.out or System.err by a logger.(Î®É8á½ô·ô-
+Fsquid:S1481§"'Remove this unused "is" local variable.(¶ŒÛé8á½ô·ô-
+psquid:S1192"LDefine a constant instead of duplicating this literal "multipart/*" 4 times.(ÎøÛŸúÿÿÿÿ8á½ô·ô-
+psquid:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òšœ]8§à÷µë-
+Usquid:S1153–"1Directly append the argument of String.valueOf().(êºüÿÿÿÿ8á½ô·ô-
+vsquid:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(¶¡èıÿÿÿÿ8²¹ù·ô-
+Gsquid:S1148À"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á½ô·ô-

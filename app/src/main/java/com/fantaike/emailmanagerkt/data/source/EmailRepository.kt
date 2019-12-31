@@ -36,7 +36,7 @@ class EmailRepository(
         }
     }
 
-    fun getEmailById(id: Long, type: FolderType, account: Account, callback: EmailDataSource.GetEmailCallback) {
+    fun getEmailById(id: Int, type: FolderType, account: Account, callback: EmailDataSource.GetEmailCallback) {
         mLocalDataSource.getEmail(id, type, account, object : EmailDataSource.GetEmailCallback {
             override fun onEmailLoaded(email: Email) {
                 callback.onEmailLoaded(email)
@@ -62,7 +62,7 @@ class EmailRepository(
         mRemoteDataSource.forward(account, email, saveSent, callback)
     }
 
-    fun delete(id: Long, type: FolderType, account: Account, callback: EmailDataSource.Callback) {
+    fun delete(id: Int, type: FolderType, account: Account, callback: EmailDataSource.Callback) {
         mRemoteDataSource.delete(id, type, account, callback)
     }
 
@@ -96,7 +96,7 @@ class EmailRepository(
     fun getEmailsFromRemoteDataSource(type: FolderType, account: Account, callback: EmailDataSource.GetEmailsCallback) {
         mRemoteDataSource.getEmails(type, account, object : EmailDataSource.GetEmailsCallback {
             override fun onEmailsLoaded(emails: List<Email>, type: FolderType) {
-                refreshLocalDataSource(emails)
+                refreshLocalDataSource(type, emails)
                 callback.onEmailsLoaded(emails, type)
             }
 
@@ -107,8 +107,8 @@ class EmailRepository(
         })
     }
 
-    private fun refreshLocalDataSource(emails: List<Email>) {
-        mLocalDataSource.deleteAll()
+    private fun refreshLocalDataSource(type: FolderType, emails: List<Email>) {
+        mLocalDataSource.deleteByType(type)
         mLocalDataSource.save(emails)
         isCache = true
     }
